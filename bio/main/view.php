@@ -12,8 +12,15 @@
             </ul>
         </div>
         <div class="col-md-4">
-            <div class="form-group">
-                <textarea class="form-control" id="chat-output" rows="5" disabled></textarea>
+            <div class="panel panel-default" style="overflow-y: scroll">
+                <div class="panel-body" style="height: 300px;">
+                    <div style="text-align: right;" class="alert alert-success">test</div>
+                    <div style="text-align: left;" class="alert alert-danger">test</div>
+                    <div style="text-align: right;" class="alert alert-success">test</div>
+                    <div style="text-align: left;" class="alert alert-danger">test</div>
+                    <div style="text-align: right;" class="alert alert-success">test</div>
+                    <div style="text-align: left;" class="alert alert-danger">test</div>
+                </div>
             </div>
         </div>
         <div class="col-md-4">
@@ -22,18 +29,26 @@
             <div>
         </div>
     </div>
-    <div class="row well">
-        <div class="col-md-3">
-            Health: <?=$this->roomParams['health']?>
-        </div>
-        <div class="col-md-3">
-            Current Health: <?=$this->room->getHealth()?>
-        </div>
-        <div class="col-md-3">
-            <?=$this->room?>
-        </div>
-        <div class="col-md-3">
-            Param Y
+    
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Health</th>
+                        <th>Current health</th>
+                        <th>Room</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><?=$this->roomParams['health']?></td>
+                        <td><?=$this->room->getHealth()?></td>
+                        <td><?=$this->room?></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
+    
 </div>
