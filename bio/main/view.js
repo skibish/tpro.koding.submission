@@ -107,7 +107,6 @@ $this.find('#chat-input').on("keypress", function(event){
                 if (err) {
                     console.log('fail');
                 } else {
-                    console.log(res);
                     self.json = res;
                 }
             });

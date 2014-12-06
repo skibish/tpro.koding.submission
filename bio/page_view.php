@@ -62,14 +62,14 @@
             #mapdiv {
                 background: #3f3f4f;color:#ffffff;
                 width: 100%;
-                height: 500px;
+                height: 768px;
                 font-size: 11px;
-                margin-bottom: -50px;
             }
             .container-biosphere {
                 width: 100%;
+                margin-top: 20px;
                 position: relative;
-                top:-50px;
+                margin-bottom: 50px;
                 
             }
         </style>
