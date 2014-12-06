@@ -29,6 +29,7 @@
         <script src="<?=$this->scope->lib->url('js/oxygen.js')?>"></script>
         <script src="<?=$this->scope->lib->url('js/jquery-ui-1.8.20.custom.min.js')?>"></script>
         <script src="<?=$this->scope->lib->url('js/moment.js')?>"></script>
+        <script src="<?=$this->scope->lib->url('js/angular.js')?>"></script>
         <script type="text/javascript" src="http://ulow.koding.io:8000/faye/client.js"></script>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -60,23 +61,26 @@
             
             #mapdiv {
                 background: #3f3f4f;color:#ffffff;
-                width		: 100%;
-                height		: 900px;
-                font-size	: 11px;
+                width: 100%;
+                height: 768px;
+                font-size: 11px;
             }
             .container-biosphere {
                 width: 100%;
                 margin-top: 20px;
+                position: relative;
+                margin-bottom: 30px;
+                
             }
         </style>
         
         <script src="/assets/js/bootstrap.min.js"></script>
         <script src="/assets/map/ammap.js" type="text/javascript"></script>
-        <script src="/assets/map/maps/js/worldLow.js" type="text/javascript"></script>
+        <script src="/assets/map/maps/js/continentsLow.js" type="text/javascript"></script>
         <script src="/assets/map/themes/dark.js" type="text/javascript"></script>
     </head>
 
-    <body>
+    <body ng-app='game'>
         <?=$body?>
     </body>
 </html>
