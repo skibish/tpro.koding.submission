@@ -62,7 +62,22 @@ var map = AmCharts.makeChart("mapdiv", {
 map.addListener('clickMapObject', function(event) {
     console.log(event.mapObject.groupId);
     map.zoomToGroup(event.mapObject.groupId);
-    
+});
+
+$this.find('#chat-input').on("keypress", function(event){
+    if ( event.which == 13 ) {
+        $this.remote(
+            "submitChatText",
+            {
+                text: $(this).val()
+            },
+            function(err, res){
+                if (res === true) {
+                    alert('submitted!');
+                }
+            }
+        );
+    }
 });
 
 $this.find('#chat-input').on("keypress", function(event){

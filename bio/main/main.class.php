@@ -9,6 +9,20 @@
             $this->user = $this->scope->auth->getCurrentUser();
         }
 
+        public function rpc_getUsers() {
+            $users = array();
+            foreach ($this->room->getUsers() as $user) {
+                $user->getUser();
+                $toMerge = json_decode($user['params'],true);
+                $merge['users'][] = $toMerge;
+            }
+            return $merge;
+        }
+
+        public function rpc_getWorldData() {
+            return $this->roomParams;
+        }
+
         public function rpc_spendHealth($args){
             $this->roomParams['health'] += $args->health;
             $this->room['params'] = json_encode($this->roomParams);
