@@ -4,6 +4,27 @@
 <div>Health: <?=$this->roomParams['health']?></div>
 <div>Current Health: <?=$this->room->getHealth()?></div>
 <div>My money: <?=$this->room->getUsers()->where(['user_id'=>$this->user['user_id']])->first()->getMoney()?></div>
+<?foreach($this->room->getUsers() as $user){?>
+    <div>
+    <?=$user->getUser()?>
+    <pre>
+        <?
+            $params = json_decode($user['params'],true);
+            print_r($params);
+        ?>
+    </pre>
+    
+    </div>
+<?}?>
+<hr>
+   <div>
+    World
+    <pre>
+        <?
+            print_r($this->roomParams);
+        ?>
+    </pre>
+    </div>
 <a href="javascript:void(0)" class="spendHealth">Spend 10 health</a>
 
 <div class="container container-biosphere">
