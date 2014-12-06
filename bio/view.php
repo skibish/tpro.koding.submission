@@ -1,0 +1,6 @@
+<?o()?>
+<?if($this->child){?>
+    <?$this->child->put_view()?>
+<?}else{?>
+    <?$this['auth']->put_view()?>
+<?}?>

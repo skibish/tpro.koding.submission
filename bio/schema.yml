@@ -1,0 +1,15 @@
+root: Bio
+databases:
+  default: biosphere
+classes:
+  User:
+    source: user
+    key: user_id
+    pattern: '{user_id:int}'
+    string: '{login}'
+    fields:
+      user_id: { type: integer, readonly: true }
+      login: { type: string }
+      password: { type: string }
+      roles: { type: set }
+      email: { type: string }

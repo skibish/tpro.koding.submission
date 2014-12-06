@@ -1,0 +1,34 @@
+<Files ~ "^\.yml">
+Order allow,deny
+Deny from all
+</Files>
+
+<Files *.php>
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+<Files index.php>
+    Order Allow,Deny
+    Allow from all
+</Files>
+
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ index.php [L]
+
+## nginx configuration
+#location / {
+#if (!-e $request_filename){
+#rewrite ^(.*)$ /index.php break;
+#}
+#}
+#location ~ ^\.yml {
+#deny all;
+#}
+#location ~ *.php {
+#deny all;
+#}
+#location /index.php {
+#allow all;
+#}
