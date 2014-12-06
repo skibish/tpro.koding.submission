@@ -13,3 +13,23 @@ classes:
       password: { type: string }
       roles: { type: set }
       email: { type: string }
+  Room:
+    source: room
+    key: room_id
+    pattern: '{room_id:int}'
+    string: 'Room #{room_id}'
+    fields:
+      room_id: { type: integer, readonly: true }
+      params: { type: string }
+      dt_created: { type: unixtime }
+      status: { type: integer }
+  RoomUser:
+    source: room_user
+    key: room_user_id
+    pattern: '{room_user_id:int}'
+    string: 'Room #{room_id}'
+    fields:
+      room_user_id: { type: integer, readonly: true }
+      room_id: { type: integer }
+      user_id: { type: integer }
+      params: { type: string }
