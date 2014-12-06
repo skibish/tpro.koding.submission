@@ -80,3 +80,33 @@ $this.find('#chat-input').on("keypress", function(event){
         );
     }
 });
+
+(function() {
+    var app = angular.module('game', []);
+        app.controller('WorldDataController', function($interval) {
+            var self = this;
+            self.json = '';
+            
+            $interval(function() {
+                $this.remote("getWorldData", {}, function(err, res) {
+                    if (err) {
+                        console.log('fail');
+                    } else {
+                        self.json = res;
+                    }
+                });
+        }, 10000);
+    });
+})();
+
+$this.find('body > div > div > div.container.container-biosphere > div > div:nth-child(2) > ul > li:nth-child(2)').on("click", function(){
+    $this.remote("getWorldData", {}, function(err, res) {
+        if (err) {
+            console.log('fail');
+        } else {
+            console.log(res);
+        }
+    });
+});
+
+

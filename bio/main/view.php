@@ -26,6 +26,7 @@
     </pre>
     </div>
 <a href="javascript:void(0)" class="spendHealth">Spend 10 health</a>
+
 <div class="container container-biosphere">
     <div class="row">
         <div class="col-md-8">
@@ -53,29 +54,17 @@
         <div class="col-md-4">
             <div class="form-group">
                 <input type="text" id="chat-input" class="form-control">
-            <div>
-        </div>
+            </div>
     </div>
-    
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Health</th>
-                        <th>Current health</th>
-                        <th>Room</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><?=$this->roomParams['health']?></td>
-                        <td><?=$this->room->getHealth()?></td>
-                        <td><?=$this->room?></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
     </div>
-    
 </div>
+
+    <div class='col-md-12 info-bar' ng-controller='WorldDataController as worldData'>
+        <div class='col-md-1'><span class='glyphicon glyphicon-heart'></span> {{ worldData.json['health'] }}</div>
+        <div class='col-md-1'>Air: {{ worldData.json['pollution-air'] }}</div>
+        <div class='col-md-1'>Water: {{ worldData.json['pollution-water'] }}</div>
+        <div class='col-md-1'>Earth: {{ worldData.json['pollution-earth'] }}</div>
+        <div class='col-md-1'>Oil: {{ worldData.json['oil'] }}</div>
+        <div class='col-md-1'>Coil: {{ worldData.json['coil'] }}</div>
+        <div class='col-md-1'>Forests: {{ worldData.json['rain-forests'] }}</div>
+    </div>
