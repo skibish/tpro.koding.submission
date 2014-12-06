@@ -31,6 +31,9 @@
             $this->init();
             $this->scope->app = $this;
             $this->company = 'bio.sphere';
+            
+            $broadcast = new Oxygen_Communication_Broadcast("http://dm1tpro1lv.koding.io:8000/faye");
+            $broadcast->publish("/messages", array("text"=>"hi there"));
         }
 
         public function configure($x) {

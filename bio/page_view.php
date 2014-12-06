@@ -22,6 +22,7 @@
         <script src="<?=$this->scope->lib->url('js/oxygen.js')?>"></script>
         <script src="<?=$this->scope->lib->url('js/jquery-ui-1.8.20.custom.min.js')?>"></script>
         <script src="<?=$this->scope->lib->url('js/moment.js')?>"></script>
+        <script type="text/javascript" src="http://dm1tpro1lv.koding.io:8000/faye/client.js"></script>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
