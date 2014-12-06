@@ -13,6 +13,7 @@
     public static $field_password = null;
     public static $field_roles = null;
     public static $field_email = null;
+    public static $field_rooms = null;
 
     private static $fields = array();
     public static function __getFields() {
@@ -91,6 +92,19 @@
              array (
               'type' => 'string',
               'readonly' => false,
+            )  
+        );
+    
+        self::$fields['rooms'] = self::$field_rooms = $scope->Oxygen_Field_Collection(
+            'User','rooms',
+             array (
+              'type' => 'collection',
+              'readonly' => true,
+              'data' => 
+              array (
+                'user_id' => 'user_id',
+              ),
+              'entity-class' => 'Bio_Entity_RoomUser',
             )  
         );
       
@@ -226,6 +240,28 @@
 
         public function setEmail($email) {
             self::$field_email[$this] = $email;
+        }
+
+        public function putRooms($tpl='short', $args=array()) {
+        	array_unshift($args, self::$field_rooms[$this]);
+        	self::$field_rooms->put_($tpl, $args);
+        }  
+
+        public function _getRooms($tpl='short', $args=array()) {
+            array_unshift($args, self::$field_rooms[$this]);
+            return self::$field_rooms->get_($tpl, $args);
+        } 
+
+        public function extRooms($args=array()) {
+            if(!is_array($args)){
+                $args = (array)$args;
+            }
+        	array_unshift($args, $this['rooms']);
+        	return self::$field_rooms->get_('extended_field', $args);
+        }        
+
+        public function getRooms() {
+            return self::$field_rooms[$this];
         }
 
 

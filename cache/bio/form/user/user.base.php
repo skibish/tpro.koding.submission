@@ -6,6 +6,8 @@
                             // Nothing to configure for password Oxygen_Field_String                
                             // Nothing to configure for roles Oxygen_Field_Set                
                             // Nothing to configure for email Oxygen_Field_String                
+                            $x['rooms']->Bio_Form_RoomUsers($this->model->getRooms());
+                
                     }
 
     }

@@ -13,6 +13,7 @@ classes:
       password: { type: string }
       roles: { type: set }
       email: { type: string }
+      rooms: { type: collection }
   Room:
     source: room
     key: room_id
@@ -23,6 +24,7 @@ classes:
       params: { type: string }
       dt_created: { type: unixtime }
       status: { type: integer }
+      users: { type: collection }
   RoomUser:
     source: room_user
     key: room_user_id
@@ -33,3 +35,8 @@ classes:
       room_id: { type: integer }
       user_id: { type: integer }
       params: { type: string }
+      user: { type: object }
+      room: { type: object }
+    relations:
+      user: { class: User, type: many-to-one, inverse: { name: rooms, type: one-to-many }, join: { user_id: user_id } }
+      room: { class: Room, type: many-to-one, inverse: { name: users, type: one-to-many }, join: { room_id: room_id } }

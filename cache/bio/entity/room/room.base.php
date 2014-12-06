@@ -12,6 +12,7 @@
     public static $field_params = null;
     public static $field_dt_created = null;
     public static $field_status = null;
+    public static $field_users = null;
 
     private static $fields = array();
     public static function __getFields() {
@@ -82,6 +83,19 @@
              array (
               'type' => 'integer',
               'readonly' => false,
+            )  
+        );
+    
+        self::$fields['users'] = self::$field_users = $scope->Oxygen_Field_Collection(
+            'Room','users',
+             array (
+              'type' => 'collection',
+              'readonly' => true,
+              'data' => 
+              array (
+                'room_id' => 'room_id',
+              ),
+              'entity-class' => 'Bio_Entity_RoomUser',
             )  
         );
       
@@ -190,6 +204,28 @@
 
         public function setStatus($status) {
             self::$field_status[$this] = $status;
+        }
+
+        public function putUsers($tpl='short', $args=array()) {
+        	array_unshift($args, self::$field_users[$this]);
+        	self::$field_users->put_($tpl, $args);
+        }  
+
+        public function _getUsers($tpl='short', $args=array()) {
+            array_unshift($args, self::$field_users[$this]);
+            return self::$field_users->get_($tpl, $args);
+        } 
+
+        public function extUsers($args=array()) {
+            if(!is_array($args)){
+                $args = (array)$args;
+            }
+        	array_unshift($args, $this['users']);
+        	return self::$field_users->get_('extended_field', $args);
+        }        
+
+        public function getUsers() {
+            return self::$field_users[$this];
         }
 
 

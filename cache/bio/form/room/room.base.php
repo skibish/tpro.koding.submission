@@ -5,6 +5,8 @@
                             // Nothing to configure for params Oxygen_Field_String                
                             // Nothing to configure for dt_created Oxygen_Field_Unixtime                
                             // Nothing to configure for status Oxygen_Field_Integer                
+                            $x['users']->Bio_Form_RoomUsers($this->model->getUsers());
+                
                     }
 
     }
