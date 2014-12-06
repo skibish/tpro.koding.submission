@@ -1,6 +1,6 @@
 <?
 return array(
-  'host' => '127.0.0.1',
+  'host' => '54.88.63.136',
   'user' => 'root',
   'pass' => 'q1w2e3',
   'uses' => 
