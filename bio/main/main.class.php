@@ -6,6 +6,7 @@
         public function __complete(){
             $this->room = Bio_Entity_Room::all()[1];
             $this->roomParams = json_decode($this->room['params'], true);
+            $this->user = $this->scope->auth->getCurrentUser();
         }
 
         public function rpc_spendHealth($args){
