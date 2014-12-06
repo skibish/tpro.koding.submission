@@ -14,7 +14,7 @@
             $this->room['params'] = json_encode($this->roomParams);
             $this->room->__submit();
 
-            $broadcast = new Oxygen_Communication_Broadcast("http://dm1tpro1lv.koding.io:8000/faye");
+            $broadcast = new Oxygen_Communication_Broadcast("http://ulow.koding.io:8000/faye");
             $broadcast->publish("/messages", array(
                 "world"=> array("health"=>$args->health),
                 "authToken"=>"h8yg7tf6r45ed5rf6gt7y8"
