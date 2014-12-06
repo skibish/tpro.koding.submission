@@ -16,6 +16,13 @@
         <title><?=$this->company?></title>
         <?}?>
 
+    
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="/assets/map/ammap.css">
         <?=$this->put_stylesheets()?>
         <?//$this->scope->assets->css->put_view()?>
 
@@ -50,9 +57,23 @@
             body {
               min-height: 100%;
             }
+            
+            #mapdiv {
+                background: #3f3f4f;color:#ffffff;
+                width		: 100%;
+                height		: 900px;
+                font-size	: 11px;
+            }
+            .container-biosphere {
+                width: 100%;
+                margin-top: 20px;
+            }
         </style>
         
         <script src="/assets/js/bootstrap.min.js"></script>
+        <script src="/assets/map/ammap.js" type="text/javascript"></script>
+        <script src="/assets/map/maps/js/worldLow.js" type="text/javascript"></script>
+        <script src="/assets/map/themes/dark.js" type="text/javascript"></script>
     </head>
 
     <body>
