@@ -69,7 +69,7 @@
                 width: 100%;
                 margin-top: 20px;
                 position: relative;
-                margin-bottom: 50px;
+                margin-bottom: 30px;
                 
             }
         </style>

@@ -31,26 +31,10 @@ var map = AmCharts.makeChart("mapdiv", {
     pathToImages: "/assets/map/images/",
     dataProvider: {
         map: "continentsLow",
-        getAreasFromMap: true,
-        areas: [
-            {
-                id: "LV",
-                groupId: "eu"
-                
-            },
-            {
-                id: "LT",
-                groupId: "eu"
-                
-            },
-            {
-                id: "RU",
-                groupId: "ru"
-                
-            }
-            ]
+        getAreasFromMap: true
         
     },
+    customData: {test:3},
     
     areasSettings: {
         autoZoom: true,
@@ -60,7 +44,7 @@ var map = AmCharts.makeChart("mapdiv", {
 });
 
 map.addListener('clickMapObject', function(event) {
-    console.log(event.mapObject.groupId);
+    console.log(event.mapObject);
     map.zoomToGroup(event.mapObject.groupId);
     
 });
@@ -87,7 +71,6 @@ $this.find('#chat-input').on("keypress", function(event){
         var self = this;
         self.json = '';
         
-        $interval(function() {
             $this.remote("getWorldData", {}, function(err, res) {
                 if (err) {
                     console.log('fail');    
@@ -95,14 +78,12 @@ $this.find('#chat-input').on("keypress", function(event){
                     self.json = res;
                 }
             });
-        }, 1000);
     });
 
     app.controller('UsersDataController', function($interval) {
         var self = this;
         self.json = '';
         
-        $interval(function() {
             $this.remote("getUsers", {}, function(err, res) {
                 if (err) {
                     console.log('fail');
@@ -110,7 +91,6 @@ $this.find('#chat-input').on("keypress", function(event){
                     self.json = res;
                 }
             });
-        }, 1000);
     });
     
 })();
