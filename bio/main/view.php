@@ -32,12 +32,18 @@
         <div class="col-md-8">
             <div id="mapdiv"></div>
         </div>
-        <div class="col-md-4">
-            <ul class="nav nav-pills nav-stacked">
-                <li role="presentation" class="active"><a href="#">Home</a></li>
-                <li role="presentation"><a href="#">Profile</a></li>
-                <li role="presentation"><a href="#">Messages</a></li>
-            </ul>
+        <div class="col-md-4" ng-controller='UsersDataController as users'>
+            <div ng-repeat="user in users.json.users">
+                <p>{{ user['money'] }}</p>
+                <p>{{ user['industry'] }}</p>
+                <p>{{ user['applied-science'] }}</p>
+                <p>{{ user['eco-science'] }}</p>
+                <p>{{ user['medicine'] }}</p>
+                <p>{{ user['population'] }}</p>
+                <p>{{ user['taxes'] }}</p>
+                <p>{{ user['happiness'] }}</p>
+                <p>{{ user['work-places'] }}</p>
+            </div>
         </div>
         <div class="col-md-4">
             <div class="panel panel-default" style="overflow-y: scroll">
@@ -60,7 +66,7 @@
 </div>
 
     <div class='col-md-12 info-bar' ng-controller='WorldDataController as worldData'>
-        <div class='col-md-1'><span class='glyphicon glyphicon-heart'></span> {{ worldData.json['health'] }}</div>
+        <div class='col-md-1'>Health: {{ worldData.json['health'] }}</div>
         <div class='col-md-1'>Air: {{ worldData.json['pollution-air'] }}</div>
         <div class='col-md-1'>Water: {{ worldData.json['pollution-water'] }}</div>
         <div class='col-md-1'>Earth: {{ worldData.json['pollution-earth'] }}</div>

@@ -61,19 +61,22 @@
             
             #mapdiv {
                 background: #3f3f4f;color:#ffffff;
-                width		: 100%;
-                height		: 900px;
-                font-size	: 11px;
+                width: 100%;
+                height: 500px;
+                font-size: 11px;
+                margin-bottom: -50px;
             }
             .container-biosphere {
                 width: 100%;
-                margin-top: 20px;
+                position: relative;
+                top:-50px;
+                
             }
         </style>
         
         <script src="/assets/js/bootstrap.min.js"></script>
         <script src="/assets/map/ammap.js" type="text/javascript"></script>
-        <script src="/assets/map/maps/js/worldLow.js" type="text/javascript"></script>
+        <script src="/assets/map/maps/js/continentsLow.js" type="text/javascript"></script>
         <script src="/assets/map/themes/dark.js" type="text/javascript"></script>
     </head>
 

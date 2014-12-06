@@ -30,7 +30,7 @@ var map = AmCharts.makeChart("mapdiv", {
     ],
     pathToImages: "/assets/map/images/",
     dataProvider: {
-        map: "worldLow",
+        map: "continentsLow",
         getAreasFromMap: true,
         areas: [
             {
@@ -83,20 +83,37 @@ $this.find('#chat-input').on("keypress", function(event){
 
 (function() {
     var app = angular.module('game', []);
-        app.controller('WorldDataController', function($interval) {
-            var self = this;
-            self.json = '';
-            
-            $interval(function() {
-                $this.remote("getWorldData", {}, function(err, res) {
-                    if (err) {
-                        console.log('fail');
-                    } else {
-                        self.json = res;
-                    }
-                });
-        }, 10000);
+    app.controller('WorldDataController', function($interval) {
+        var self = this;
+        self.json = '';
+        
+        $interval(function() {
+            $this.remote("getWorldData", {}, function(err, res) {
+                if (err) {
+                    console.log('fail');    
+                } else {
+                    self.json = res;
+                }
+            });
+        }, 1000);
     });
+
+    app.controller('UsersDataController', function($interval) {
+        var self = this;
+        self.json = '';
+        
+        $interval(function() {
+            $this.remote("getUsers", {}, function(err, res) {
+                if (err) {
+                    console.log('fail');
+                } else {
+                    console.log(res);
+                    self.json = res;
+                }
+            });
+        }, 1000);
+    });
+    
 })();
 
 $this.find('body > div > div > div.container.container-biosphere > div > div:nth-child(2) > ul > li:nth-child(2)').on("click", function(){
