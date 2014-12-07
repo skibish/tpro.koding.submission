@@ -40,7 +40,7 @@ var map = AmCharts.makeChart("mapdiv", {
     smallMap: {}
 });
 
-var userMap = {};
+window.userMap = {};
 var customFunc= {
     getMapObject: function(login){
         return map.dataProvider.areas[userMap[login]];
