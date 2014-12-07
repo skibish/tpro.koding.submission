@@ -60,17 +60,11 @@
             }
             
             #mapdiv {
-                background: #3f3f4f;color:#ffffff;
+                background: #3f3f4f;
+                color:#ffffff;
                 width: 100%;
-                height: 768px;
+                height: 620px;
                 font-size: 11px;
-            }
-            .container-biosphere {
-                width: 100%;
-                margin-top: 20px;
-                position: relative;
-                margin-bottom: 30px;
-                
             }
         </style>
         

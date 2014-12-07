@@ -1,5 +1,5 @@
 <?o('div', array('user'=>array('login'=>$this->user['login'])))?>
-<?=$this->room?>
+<?/*<?=$this->room?>
 <br>
 <div>Health: <?=$this->roomParams['health']?></div>
 <div>Current Health: <?=$this->room->getHealth()?></div>
@@ -26,12 +26,13 @@
     </pre>
     </div>
 <a href="javascript:void(0)" class="spendHealth">Spend 10 health</a>
+*/?>
 
 <div class="container container-biosphere">
     <div class="row">
         <div class="col-md-8">
-            <div class="panel panel-default">
-                <div class="panel-body">
+            <div class="panel panel-default" style="margin: -1px -16px;">
+                <div class="panel-body" style="padding: 0px; ">
                     <div id="mapdiv"></div>
                 </div>
             </div>

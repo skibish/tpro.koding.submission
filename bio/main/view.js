@@ -15,12 +15,6 @@ $this.find('.spendHealth').click(function(){
     });
 });
 
-
-
-
-
-
-
 var map = AmCharts.makeChart("mapdiv", {
     type: "map",
     theme: "dark",
