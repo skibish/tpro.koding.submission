@@ -16,6 +16,11 @@ $this.find('.spendHealth').click(function(){
 });
 
 
+
+
+
+
+
 var map = AmCharts.makeChart("mapdiv", {
     type: "map",
     theme: "dark",
@@ -36,16 +41,16 @@ var map = AmCharts.makeChart("mapdiv", {
         map: "continentsLow",
         getAreasFromMap: true,
             areas: [
-        {
-		  id: "europe",
-		  title: "<h1>Holy</h1>",
-		}
-    ],
-        
+            {
+                id: "europe",
+                title: "<h1>Holy</h1>"
+            },
+            {
+                id: "afrika",
+                title: "<h1>Holy</h1>",
+            }
+        ],
     },
-    
-
-    customData: {test:3},
     
     areasSettings: {
         autoZoom: true,
@@ -53,6 +58,11 @@ var map = AmCharts.makeChart("mapdiv", {
         },
         smallMap: {}
 });
+
+var users = [{country: "europe"},{country: "afrika"}];
+
+
+console.log(map.dataProvider.areas[1].title)
 
 map.addListener('rollOverMapObject', function(event) {
     console.log(event.mapObject.chart.customData);
