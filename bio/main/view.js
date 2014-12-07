@@ -211,49 +211,156 @@ $this.find('#chat-input').on("keypress", function(event){
         }
 
         $interval(function() {
-            $scope.worldParams['oil'] = Math.min(Math.max(0, $this.data('room_params').oil - (moment().unix() - $this.data('dt_created')) * (0.05 * 1000)));
             $scope.timeUpdate();
 
             if(!isNaN($scope.worldParams['pollution-air'])){
-                var userParams = customFunc.getMapObject($this.data('user').login).params;
-                var population = parseInt(userParams.population);
+                for(var k in map.dataProvider.areas){
+                    var userParams = map.dataProvider.areas[k].params;
+                    var population = parseInt(userParams.population);
 
-                //death number
-                var deathNumber = -1 * (
-                    (population*0.1) + 
-                    (parseInt(userParams.medicine)*0.5) +
-                    (
+                    //ecology
+                    var ecology = 0;
+                    if(userParams['eco-science'] < 1000) {
+                        ecology = 3;
+                    }else if(userParams['eco-science'] < 5000){
+                        ecology = 2.1;
+                    }else{
+                        ecology = 0.5;
+                    }
+
+                    //number of factories
+                    var numOfFactories = (1000*userParams.industry);
+
+                    //happiness
+                    var sumPollution = (
+                        $scope.worldParams['pollution-air'] + 
+                        $scope.worldParams['pollution-water'] +
+                        $scope.worldParams['pollution-earth']
+                    );
+                    var happiness = 0;
+                    if (sumPollution > 1000){
+                        happiness = -(sumPollution / 1000);
+                    }else{
+                        happiness = 1;
+                    }
+
+                    userParams.happiness = Math.min(
+                        Math.max(
+                            0, 
+                            userParams.happiness + ((moment().unix() - $this.data('dt_created')) * happiness)
+                        ), 100
+                    );
+
+                    //death number
+                    var deathNumber = (
+                        (population*0.1) + 
+                        (1-parseInt(userParams.medicine)*0.5) +
                         (
-                            (parseInt($scope.worldParams['pollution-air'])) +
-                            (parseInt($scope.worldParams['pollution-water'])) +
-                            (parseInt($scope.worldParams['pollution-water']))
-                        ) / 1000
-                    ) + 
-                    (
-                        (100 - parseInt(userParams.happiness)) * 100
-                    )
-                ) / 12;
-                
-                userParams.population = Math.min(
-                    Math.max(
+                            (
+                                (parseInt($scope.worldParams['pollution-air'])) +
+                                (parseInt($scope.worldParams['pollution-water'])) +
+                                (parseInt($scope.worldParams['pollution-water']))
+                            ) / 1000
+                        ) + 
+                        (
+                            (100 - parseInt(userParams.happiness)) * 100
+                        )
+                    ) / 12;
+                    
+                    userParams.population = Math.max(
                         0, 
-                        population - ((moment().unix() - $this.data('dt_created')) * deathNumber)
-                    )
-                );
+                        userParams.population - ((moment().unix() - $this.data('dt_created')) * deathNumber)
+                    );
 
-                //birth number
-                /*var birthNumber = (100 * userParams.happiness * (userParams.medicine/100));
-                userParams.population = Math.min(
-                    Math.max(
+                    //birth number
+                    var birthNumber = (100 * userParams.happiness * (userParams.medicine/100));
+                    userParams.population = Math.max(
                         0, 
-                        population - ((moment().unix() - $this.data('dt_created')) * birthNumber)
-                    )
-                );*/
+                        userParams.population + ((moment().unix() - $this.data('dt_created')) * birthNumber)
+                    );
 
-                customFunc.getMapObject($this.data('user').login).params = userParams;
-                map.validateData();
+                    //earnings
+                    var earnings = numOfFactories * 
+                        (1 + userParams['applied-science']) + 
+                        Math.min(userParams['work-places'], userParams['population']) * 0.0001 * userParams['taxes'];
+                    userParams.money = userParams.money + ((moment().unix() - $this.data('dt_created')) * earnings);
+
+                    /**********/
+                    /* GLOBAL */
+                    /**********/
+
+                    //trees
+                    var trees = 500 - 
+                        (
+                            $scope.worldParams['pollution-air'] + 
+                            $scope.worldParams['pollution-water'] +
+                            $scope.worldParams['pollution-earth']
+                        ) / 1000;
+                    $scope.worldParams['rain-forests'] = Math.max(
+                        0, 
+                        $scope.worldParams['rain-forests'] + ((moment().unix() - $this.data('dt_created')) * trees)
+                    );
+
+                    //pollution
+                    var pollution       = userParams['industry'] * ecology;
+                    var pollutionAir    = pollution - ((7 + $scope.worldParams['rain-forests']/1000) + (7 + userParams['eco-science']/1000));
+                    var pollutionWater  = pollution - ((10 + userParams['eco-science'] / 1000));
+                    var pollutionEarth  = pollution - ((5 + $scope.worldParams['rain-forests']/1000) + (5 + userParams['eco-science']/1000));
+
+                    $scope.worldParams['pollution-air']   = Math.min(
+                        Math.max(
+                            0, 
+                            $scope.worldParams['pollution-air'] + ((moment().unix() - $this.data('dt_created')) * pollutionAir)
+                        ), 100
+                    );
+                    $scope.worldParams['pollution-water'] = Math.min(
+                        Math.max(
+                            0, 
+                            $scope.worldParams['pollution-water'] + ((moment().unix() - $this.data('dt_created')) * pollutionWater)
+                        ), 100
+                    );
+                    $scope.worldParams['pollution-earth'] = Math.min(
+                        Math.max(
+                            0, 
+                            $scope.worldParams['pollution-earth'] + ((moment().unix() - $this.data('dt_created')) * pollutionEarth)
+                        ), 100
+                    );
+
+                    //factory waste
+                    var coalWaste = 0;
+                    var forestWaste = 0;
+                    var oilWaste = 0;
+                    if(userParams['eco-science'] < 1000){
+                        coalWaste   = userParams.industry * 1;
+                        forestWaste = userParams.industry * 1;
+                    }else if(userParams['eco-science'] < 5000){
+                        coalWaste   = userParams.industry * 0.5;
+                        forestWaste = userParams.industry * 0.1;
+                    }else{
+                        coalWaste   = userParams.industry * 0.1;
+                        forestWaste = userParams.industry * 0;
+                        oilWaste = userParams.industry * 0.4;
+                    }
+
+                    $scope.worldParams['coal'] = Math.max(
+                        0, 
+                        $scope.worldParams['coal'] - ((moment().unix() - $this.data('dt_created')) * coalWaste)
+                    );
+
+                    $scope.worldParams['rain-forests'] = Math.max(
+                        0, 
+                        $scope.worldParams['rain-forests'] - ((moment().unix() - $this.data('dt_created')) * forestWaste)
+                    );
+
+                    $scope.worldParams['oil'] = Math.max(
+                        0, 
+                        $scope.worldParams['oil'] - ((moment().unix() - $this.data('dt_created')) * oilWaste)
+                    );
+
+                    //customFunc.getMapObject($this.data('user').login).params = userParams;
+                }
             }
-        }, 50); 
+        }, 1000); 
         
     });
 

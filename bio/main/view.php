@@ -146,7 +146,7 @@
             <abbr title="Coal">
                 <span class="glyphicon glyphicon-fire" style="color: #e67e22;"></span>
             </abbr>
-            {{ worldParams['coil'] | round }}
+            {{ worldParams['coal'] | round }}
         </div>
         <div class='col-md-1'>
             <abbr title="Rain forests">
