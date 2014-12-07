@@ -118,8 +118,9 @@ $this.find('#chat-input').on("keypress", function(event){
         };
 
         $interval(function(){
-            $scope.worldParams['oil'] = $this.data('room_params').oil - (moment().unix() - $this.data('dt_created')) * (0.05 * 1000);
+            $scope.worldParams['oil'] = Math.min(Math.max(0, $this.data('room_params').oil - (moment().unix() - $this.data('dt_created')) * (0.05 * 1000)));
             //$scope.$apply();
+            map.titles[1].text = moment().unix();
         }, 50);
     });
 
