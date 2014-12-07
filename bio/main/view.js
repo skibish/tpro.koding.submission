@@ -132,6 +132,15 @@ $this.find('#chat-input').on("keypress", function(event){
     }
 });
 
+/**
+ * Listen on map areas clicks
+ */
+
+
+
+/**
+ * Angular settings and logic
+ */
 (function() {
     var app = angular.module('main', []);
     app.controller('WorldDataController', function($scope, $interval) {
@@ -207,6 +216,17 @@ $this.find('#chat-input').on("keypress", function(event){
         
     });
 
+    /**
+     * Main purpose, generate User data preview
+     */
+    app.controller('UserController', function($scope) {
+        $scope.usersData = {};
+        map.addListener('clickMapObject', function(e) {
+            $scope.usersData['login'] = e.mapObject.login;
+            $scope.usersData['params'] = e.mapObject.params;
+        });
+    });
+
     app.filter('round', function(){
         return function(input){
             return Math.round(input, 0);
@@ -218,6 +238,9 @@ $this.find('#chat-input').on("keypress", function(event){
 angular.bootstrap($this.find('.ng'), ['main']);
 
 
+/**
+ * Oxygen logic
+ */
 $this.find('.increase').click(function(){
     $this.remote('increase', {
         param: $(this).data("param")
