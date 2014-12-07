@@ -174,8 +174,8 @@ $this.find('#chat-input').on("keypress", function(event){
 
         $interval(function() {
             $scope.worldParams['oil'] = Math.min(Math.max(0, $this.data('room_params').oil - (moment().unix() - $this.data('dt_created')) * (0.05 * 1000)));
-            map.titles[1].text = moment().unix();
-        }, 50);
+            timeUpdate();
+        }, 50); 
     });
 
     app.filter('round', function(){
@@ -185,5 +185,11 @@ $this.find('#chat-input').on("keypress", function(event){
     });
     
 })();
+
+var timeUpdate = function(){
+    var timeDiff = moment().unix() - $this.data('dt_created');
+    map.titles[1].text = moment(new Date((moment().unix() + (timeDiff * 0.17 * 31536000)) * 1000)).format("MMMM Do YYYY");
+    map.validateData();
+}
 
 angular.bootstrap($this.find('.ng'), ['main']);
