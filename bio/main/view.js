@@ -3,7 +3,8 @@ client.subscribe('/messages', function(message) {
     console.log('Got a message: ' + message.text);
     console.log(message);
     if(message.text){
-        $this.find('.messagesPane').append('<div class="alert alert-info">'+message.text+'</div>');
+        $this.find('.messagesPane').prepend('<div class="alert alert-info"><div class="author">'+message.author+' <span style="float: right;">'+moment().format("hh:mm:ss")+'</span></div> '+ message.text+'</div>');
+        console.log(moment);
     }
 });
 

@@ -41,6 +41,7 @@
                 $broadcast = new Oxygen_Communication_Broadcast("http://ulow.koding.io:8000/faye");
                 $broadcast->publish("/messages", array(
                     "text"=>$args->text,
+                    "author"=>$this->user['login'],
                     "authToken"=>"h8yg7tf6r45ed5rf6gt7y8"
                 ));
                 return true;

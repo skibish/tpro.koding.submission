@@ -60,7 +60,6 @@
                     <div style="text-align: right;" class="alert alert-success">test</div>
                     <div style="text-align: left;" class="alert alert-danger">test</div>
                     <div class="alert alert-info"></div>*/?>
-                    
                 </div>
             </div>
         </div>
