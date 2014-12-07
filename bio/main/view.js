@@ -33,7 +33,14 @@ var map = AmCharts.makeChart("mapdiv", {
     pathToImages: "/assets/map/images/",
     dataProvider: {
         map: "continentsLow",
-        getAreasFromMap: true
+        getAreasFromMap: true,
+        images: [{
+            zoomLevel: 5,
+            scale: 0.5,
+            title: "Brussels",
+            latitude: 50.8371,
+            longitude: 4.3676
+        }]
         
     },
     customData: {test:3},
@@ -95,4 +102,63 @@ $this.find('#chat-input').on("keypress", function(event){
     
 })();
 
+
+
+function updateCustomMarkers () {
+    // get map object
+    
+    console.log(map);
+    return;
+    var map = event.chart;
+    
+    // go through all of the images
+    for( var x in map.dataProvider.images) {
+        // get MapImage object
+        var image = map.dataProvider.images[x];
+        
+        // check if it has corresponding HTML element
+        if ('undefined' == typeof image.externalElement)
+            image.externalElement = createCustomMarker(image);
+
+        // reposition the element accoridng to coordinates
+        image.externalElement.style.top = map.latitudeToY(image.latitude) + 'px';
+        image.externalElement.style.left = map.longitudeToX(image.longitude) + 'px';
+    }
+}
+
+
+// this function creates and returns a new marker element
+function createCustomMarker(image) {
+    // create holder
+    var holder = document.createElement('div');
+    holder.className = 'map-marker';
+    holder.title = image.title;
+    holder.style.position = 'absolute';
+    
+    // maybe add a link to it?
+    if (undefined != image.url) {
+        holder.onclick = function() {
+            window.location.href = image.url;
+        };
+        holder.className += ' map-clickable';
+    }
+    
+    // create dot
+    var dot = document.createElement('div');
+    dot.className = 'dot';
+    holder.appendChild(dot);
+    
+    // create pulse
+    var pulse = document.createElement('div');
+    pulse.className = 'pulse';
+    holder.appendChild(pulse);
+    
+    // append the marker to the map container
+    image.chart.chartDiv.appendChild(holder);
+    
+    image.externalElement.style.top = map.latitudeToY(image.latitude) + 'px';
+    image.externalElement.style.left = map.longitudeToX(image.longitude) + 'px';
+}
+
+console.log(map.dataProvider.images)
 
