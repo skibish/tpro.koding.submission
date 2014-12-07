@@ -136,5 +136,8 @@
             </abbr>
             {{ worldParams['rain-forests'] | round }}
         </div>
+        <div class='col-md-3'>
+            <strong> Current time: {{ worldTime }}<strong>
+        </div>
     </div>
 </div>
