@@ -37,7 +37,10 @@
 
         public function configure($x) {
             $x['auth']->Bio_Auth();
-            $x['main']->Bio_Main();
+            if($this->scope->auth->isLogged()){
+                $x['main']->Bio_Main();
+            }
+            $x['{x:any}']->Bio_Auth();
         }
 
         public function __toString() {
