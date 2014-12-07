@@ -54,7 +54,7 @@ var map = AmCharts.makeChart("mapdiv", {
     
     areasSettings: {
         autoZoom: true,
-        selectedColor: "#CC0000"
+        selectedColor: "#8e44ad"
         },
         smallMap: {}
 });

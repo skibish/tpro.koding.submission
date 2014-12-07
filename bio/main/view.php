@@ -128,7 +128,7 @@
         </div>
         <div class='col-md-1'>
             <abbr title="Rain forests">
-                <span class="glyphicon glyphicon-tree-deciduous" style="color: #2ecc71;"></span>
+                <span class="glyphicon glyphicon-leaf" style="color: #2ecc71;"></span>
             </abbr>
             {{ worldData.json['rain-forests'] }}
         </div>
