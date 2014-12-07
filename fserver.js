@@ -21,6 +21,8 @@ var serverAuth = {
         if(!message.data.authToken || message.data.authToken != authToken){
             message = {};
             //console.log('No auth token');
+        }else{
+            message.data.authToken = null;
         }
     }
     // Call the server back now we're done

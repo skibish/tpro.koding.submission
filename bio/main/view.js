@@ -61,6 +61,7 @@ map.addListener('clickMapObject', function(event) {
 $this.find('#chat-input').on("keypress", function(event){
     if ( event.which == 13 ) {
         var $input = $(this);
+        $input.css({'opacity':0.1}).attr('disabled', true);
         $this.remote(
             "submitChatText",
             {
@@ -70,6 +71,7 @@ $this.find('#chat-input').on("keypress", function(event){
                 if (res === true) {
                     $input.val('');
                 }
+                $input.css({'opacity':1}).attr('disabled', false);
             }
         );
     }
