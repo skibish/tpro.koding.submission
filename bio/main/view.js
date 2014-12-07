@@ -31,7 +31,7 @@ var map = AmCharts.makeChart("mapdiv", {
             },
             {
                 id: "north_america",
-                title: "<h1>Holy</h1>",
+                title: "<h1>Holy</h1>"
             }
         ],
     },
@@ -39,8 +39,8 @@ var map = AmCharts.makeChart("mapdiv", {
     areasSettings: {
         autoZoom: true,
         selectedColor: "#8e44ad"
-        },
-        smallMap: {}
+    },
+    smallMap: {}
 });
 
 var userMap = {};
@@ -75,7 +75,18 @@ var customFunc= {
                         mapObject.title = mapObject.template();
                         
                     }();
-                    mapObject.color  = this.getRandomColor(user['login']);
+
+                    mapObject.color = '#'+user['hash'].substr(-6);
+                    var getLighten = function(color, lum){
+                        return Math.max(16, Math.min(255, Math.round(parseInt(color, 16) + lum))).toString(16);
+                    };
+                    var r = getLighten(mapObject.color.substr(1,2), 100),
+                        g = getLighten(mapObject.color.substr(3,2), 100),
+                        b = getLighten(mapObject.color.substr(5,2), 100);
+                    var hoverColor = '#' + r + g + b;
+
+                    mapObject.rollOverColor = hoverColor;
+                    mapObject.selectedColor = mapObject.rollOverColor;
                     userMap[user['login']] = k;
                 }
             }
@@ -83,12 +94,12 @@ var customFunc= {
     },
 
     getRandomColor: function(userData) {
-        var letters = '0123456789ABCDEF'.split('');
+        /*var letters = '0123456789ABCDEF'.split('');
         var color = '#';
         for (var i = 0; i < 6; i++ ) {
             color += letters[Math.floor(Math.random() * 16)];
         }
-        return color;
+        return color;*/
     }
 }
 
@@ -170,18 +181,7 @@ $this.find('#chat-input').on("keypress", function(event){
             return Math.round(input, 0);
         }
     });
-
-    /*app.controller('UsersDataController', function($interval) {
-        var self = this;
-        self.json = '';
-        
-            $this.remote("getUsers", {}, function(err, res) {
-                if (err) {
-                    console.log('fail');
-                } else {
-                    self.json = res;
-                }
-            });
-    });*/
     
 })();
+
+angular.bootstrap($this.find('.ng'), ['main']);

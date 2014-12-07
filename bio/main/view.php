@@ -1,6 +1,10 @@
 <? $users = array(); ?>
 <? foreach($this->room->getUsers() as $user) { ?>
-<? $users[] = array('login' => $user->getUser()->getLogin(), 'params' => json_decode($user['params'], true)); ?>                                                                                    
+<? $users[] = array(
+    'login' => $user->getUser()->getLogin(), 
+    'hash' => $user->getUser()->getHash(), 
+    'params' => json_decode($user['params'], true)
+); ?>                                                                                    
 <? } ?>
 <?o('div', array('users' => $users, 'user'=>array('login'=>$this->user['login']), 'room_params'=>$this->roomParams, 'dt_created'=>$this->room['dt_created']))?>
 <?/*<?=$this->room?>
@@ -32,7 +36,7 @@
 <a href="javascript:void(0)" class="spendHealth">Spend 10 health</a>
 */?>
 
-<div class="container container-biosphere">
+<div class="container container-biosphere ng" ng-modules="main">
     <div class="row">
         <div class="col-md-8">
             <div class="panel panel-default" style="margin: -1px -16px;">
@@ -41,7 +45,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4" ng-controller='UsersDataController as users'>
+        <div class="col-md-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Actions</h3>
@@ -94,7 +98,7 @@
     </div>
 </div>
 
-<div class="row" ng-app="main">
+<div class="row ng" ng-modules="main">
     <div class='col-md-12 info-bar' ng-controller='WorldDataController'>
         <div class='col-md-1'>
             <abbr title="Health">

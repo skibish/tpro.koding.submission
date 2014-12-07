@@ -11,6 +11,7 @@ classes:
       user_id: { type: integer, readonly: true }
       login: { type: string }
       password: { type: string }
+      hash: { type: string }
       roles: { type: set }
       email: { type: string }
       rooms: { type: collection }

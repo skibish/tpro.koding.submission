@@ -11,6 +11,7 @@
     public static $field_user_id = null;
     public static $field_login = null;
     public static $field_password = null;
+    public static $field_hash = null;
     public static $field_roles = null;
     public static $field_email = null;
     public static $field_rooms = null;
@@ -73,6 +74,14 @@
     
         self::$fields['password'] = self::$field_password = $scope->Oxygen_Field_String(
             'User','password',
+             array (
+              'type' => 'string',
+              'readonly' => false,
+            )  
+        );
+    
+        self::$fields['hash'] = self::$field_hash = $scope->Oxygen_Field_String(
+            'User','hash',
              array (
               'type' => 'string',
               'readonly' => false,
@@ -186,6 +195,33 @@
 
         public function setPassword($password) {
             self::$field_password[$this] = $password;
+        }
+
+        public function putHash($tpl='short', $args=array()) {
+        	array_unshift($args, self::$field_hash[$this]);
+        	self::$field_hash->put_($tpl, $args);
+        }  
+
+        public function _getHash($tpl='short', $args=array()) {
+            array_unshift($args, self::$field_hash[$this]);
+            return self::$field_hash->get_($tpl, $args);
+        } 
+
+        public function extHash($args=array()) {
+            if(!is_array($args)){
+                $args = (array)$args;
+            }
+        	array_unshift($args, $this['hash']);
+        	return self::$field_hash->get_('extended_field', $args);
+        }        
+
+        public function getHash() {
+            return self::$field_hash[$this];
+        }
+
+
+        public function setHash($hash) {
+            self::$field_hash[$this] = $hash;
         }
 
         public function putRoles($tpl='short', $args=array()) {
