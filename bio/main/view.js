@@ -77,7 +77,7 @@ window.customFunc = {
                         return html;
                     };
                     mapObject.updateTemplate = function() {
-                        mapObject.title = mapObject.template();
+                        this.title = this.template();
                     };
 
                     mapObject.updateTemplate();
