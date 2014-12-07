@@ -14,7 +14,9 @@ classes:
       hash: { type: string }
       roles: { type: set }
       email: { type: string }
-      rooms: { type: collection }
+      room_user: { type: object }
+    relations:
+      room_user: { class: RoomUser, type: many-to-one, inverse: { name: _user, type: one-to-many }, join: { user_id: user_id } }
   Room:
     source: room
     key: room_id
@@ -39,5 +41,5 @@ classes:
       user: { type: object }
       room: { type: object }
     relations:
-      user: { class: User, type: many-to-one, inverse: { name: rooms, type: one-to-many }, join: { user_id: user_id } }
+      user: { class: User, type: many-to-one, inverse: { name: _users, type: one-to-many }, join: { user_id: user_id } }
       room: { class: Room, type: many-to-one, inverse: { name: users, type: one-to-many }, join: { room_id: room_id } }

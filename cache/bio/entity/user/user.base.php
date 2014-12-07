@@ -14,7 +14,7 @@
     public static $field_hash = null;
     public static $field_roles = null;
     public static $field_email = null;
-    public static $field_rooms = null;
+    public static $field_room_user = null;
 
     private static $fields = array();
     public static function __getFields() {
@@ -104,11 +104,11 @@
             )  
         );
     
-        self::$fields['rooms'] = self::$field_rooms = $scope->Oxygen_Field_Collection(
-            'User','rooms',
+        self::$fields['room_user'] = self::$field_room_user = $scope->Oxygen_Field_Object(
+            'User','room_user',
              array (
-              'type' => 'collection',
-              'readonly' => true,
+              'type' => 'object',
+              'readonly' => false,
               'data' => 
               array (
                 'user_id' => 'user_id',
@@ -278,26 +278,31 @@
             self::$field_email[$this] = $email;
         }
 
-        public function putRooms($tpl='short', $args=array()) {
-        	array_unshift($args, self::$field_rooms[$this]);
-        	self::$field_rooms->put_($tpl, $args);
+        public function putRoomUser($tpl='short', $args=array()) {
+        	array_unshift($args, self::$field_room_user[$this]);
+        	self::$field_room_user->put_($tpl, $args);
         }  
 
-        public function _getRooms($tpl='short', $args=array()) {
-            array_unshift($args, self::$field_rooms[$this]);
-            return self::$field_rooms->get_($tpl, $args);
+        public function _getRoomUser($tpl='short', $args=array()) {
+            array_unshift($args, self::$field_room_user[$this]);
+            return self::$field_room_user->get_($tpl, $args);
         } 
 
-        public function extRooms($args=array()) {
+        public function extRoomUser($args=array()) {
             if(!is_array($args)){
                 $args = (array)$args;
             }
-        	array_unshift($args, $this['rooms']);
-        	return self::$field_rooms->get_('extended_field', $args);
+        	array_unshift($args, $this['room_user']);
+        	return self::$field_room_user->get_('extended_field', $args);
         }        
 
-        public function getRooms() {
-            return self::$field_rooms[$this];
+        public function getRoomUser() {
+            return self::$field_room_user[$this];
+        }
+
+
+        public function setRoomUser($room_user) {
+            self::$field_room_user[$this] = $room_user;
         }
 
 

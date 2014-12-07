@@ -7,13 +7,9 @@
             $this->room = Bio_Entity_Room::all()[1];
             $this->roomParams = json_decode($this->room['params'], true);
             $this->user = $this->scope->auth->getCurrentUser();
+            $this->roomUser = $this->user->getRoomUser();
+            $this->roomUsers = $this->room->getUsers();
 
-            foreach($this->user->getRooms() as $room){ 
-                if($room['user_id'] == $this->user->getUserId()){
-                    $this->roomUser = $room; 
-                    break; 
-                }
-            }
             $this->userParams = json_decode($this->roomUser['params'], true);
 
             $this->localParams = array(
@@ -48,7 +44,7 @@
 
         public function rpc_getUsers() {
             $users = array();
-            foreach ($this->room->getUsers() as $user) {
+            foreach ($this->roomUsers as $user) {
                 $user->getUser();
                 $toMerge = json_decode($user['params'],true);
                 $merge['users'][] = $toMerge;
@@ -110,12 +106,13 @@
                 $amount = max(0, (int)$args->amount);
 
                 $receiver = null;
-                foreach($this->user->getRooms() as $room){ 
-                    if(strtolower($room->getUser()['login']) == strtolower($args->receiver)){
-                        $receiver = $room; 
+                foreach($this->roomUsers as $roomUser){ 
+                    if(strtolower($roomUser->getUser()['login']) == strtolower($args->receiver)){
+                        $receiver = $roomUser; 
                         break; 
                     }
                 }
+
                 if($receiver !== null){
                     //send
                     $this->userParams['money'] -= $amount;

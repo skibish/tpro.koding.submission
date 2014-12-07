@@ -7,8 +7,7 @@
                             // Nothing to configure for hash Oxygen_Field_String                
                             // Nothing to configure for roles Oxygen_Field_Set                
                             // Nothing to configure for email Oxygen_Field_String                
-                            $x['rooms']->Bio_Form_RoomUsers($this->model->getRooms());
-                
+                            $x['room_user']->Bio_Form_RoomUser($this->model->getRoomUser());                
                     }
 
     }
