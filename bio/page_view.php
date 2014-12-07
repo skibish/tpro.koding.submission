@@ -57,6 +57,7 @@
             }
             body {
               min-height: 100%;
+              margin-top: 20px;
             }
             
             #mapdiv {

@@ -39,8 +39,8 @@
 <div class="container container-biosphere ng" ng-modules="main">
     <div class="row">
         <div class="col-md-8">
-            <div class="panel panel-default" style="margin: -1px -16px;">
-                <div class="panel-body" style="padding: 0px; ">
+            <div class="panel panel-default">
+                <div class="panel-body">
                     <div id="mapdiv"></div>
                 </div>
             </div>
@@ -71,7 +71,7 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">Chat</h3>
                 </div>
-                <div class="messagesPane panel-body" style="height: 265px; overflow-y: scroll">
+                <div class="messagesPane panel-body" style="height: 240px; overflow-y: scroll">
                 </div>
             </div>
             <!-- /Chat box -->
