@@ -15,11 +15,6 @@ var map = AmCharts.makeChart("mapdiv", {
             text: "Biosphere project",
             size: 16
             
-        },
-        {
-            text: "Year 2014",
-            size: 14
-            
         }
     ],
     pathToImages: "/assets/map/images/",
@@ -133,6 +128,7 @@ $this.find('#chat-input').on("keypress", function(event){
     var app = angular.module('main', []);
     app.controller('WorldDataController', function($scope, $interval) {
         $scope.worldParams = {};
+        $scope.worldTime = '';
         $scope.client = new Faye.Client('http://ulow.koding.io:8000/faye');
         
         $scope.initFaye = function(){
@@ -179,11 +175,18 @@ $this.find('#chat-input').on("keypress", function(event){
                 }
             });
         };
+        
+        $scope.timeUpdate = function(){
+            var timeDiff = moment().unix() - $this.data('dt_created');
+            $scope.worldTime = moment(new Date((moment().unix() + (timeDiff * 60*60*24*30)) * 1000)).format("MMMM YYYY");
+            //map.validateData();
+        }
 
         $interval(function() {
             $scope.worldParams['oil'] = Math.min(Math.max(0, $this.data('room_params').oil - (moment().unix() - $this.data('dt_created')) * (0.05 * 1000)));
-            timeUpdate();
+            $scope.timeUpdate();
         }, 50); 
+        
     });
 
     app.filter('round', function(){
@@ -193,12 +196,6 @@ $this.find('#chat-input').on("keypress", function(event){
     });
     
 })();
-
-var timeUpdate = function(){
-    var timeDiff = moment().unix() - $this.data('dt_created');
-    map.titles[1].text = moment(new Date((moment().unix() + (timeDiff * 60*60*24*30)) * 1000)).format("MMMM YYYY");
-    map.validateData();
-}
 
 angular.bootstrap($this.find('.ng'), ['main']);
 
