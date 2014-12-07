@@ -30,7 +30,7 @@ var map = AmCharts.makeChart("mapdiv", {
                 title: "<h1>Holy</h1>"
             },
             {
-                id: "afrika",
+                id: "north_america",
                 title: "<h1>Holy</h1>",
             }
         ],
@@ -43,15 +43,61 @@ var map = AmCharts.makeChart("mapdiv", {
         smallMap: {}
 });
 
-var users = [{country: "europe"},{country: "afrika"}];
+var userMap = {};
+var customFunc= {
+    getMapObject: function(login){
+        return map.dataProvider.areas[userMap[login]];
+    },
+    updateUserData: function(users) {
+        for(var key in users) {
+            var mapObjects = map.dataProvider.areas;
+            var user = users[key];
+            
+            for(var k in mapObjects) {
+                var mapObject = mapObjects[k];
+                if (mapObject.id === user['params']['country']) {
+                    mapObject.params = user['params'];
+                    mapObject.login = user['Login'];
+                    mapObject.template = function() {
+                        var html = "<div> Login: "+ this.login +"</div>";
+                        html += "<div> Country: "+ this.params.country +"</div>";
+                        html += "<div>Applied science: "+ this.params['applied-science'] +"</div>";
+                        html += "<div>Eco science: "+ this.params['eco-science'] +"</div>";
+                        html += "<div> industry: "+ this.params['industry'] +"</div>";
+                        html += "<div> Medicine: "+ this.params['medicine'] +"</div>";
+                        html += "<div> Money: "+ this.params['money'] +"</div>";
+                        html += "<div> Population: "+ this.params['population'] +"</div>";
+                        html += "<div> Taxes: "+ this.params['taxes'] +"</div>";
+                        html += "<div>Work places: "+ this.params['work-places'] +"</div>";
+                        return html;
+                    };
+                    mapObject.updateTemplate = function() {
+                        mapObject.title = mapObject.template();
+                        
+                    }();
+                    mapObject.color  = this.getRandomColor(user['login']);
+                    userMap[user['login']] = k;
+                }
+            }
+        }
+    },
 
+    getRandomColor: function(userData) {
+        var letters = '0123456789ABCDEF'.split('');
+        var color = '#';
+        for (var i = 0; i < 6; i++ ) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+}
 
-console.log(map.dataProvider.areas[1].title)
+var users = $this.data('users');
+console.log(users);
+customFunc.updateUserData(users); 
 
-map.addListener('rollOverMapObject', function(event) {
-    console.log(event.mapObject.chart.customData);
-    map.zoomToGroup(event.mapObject.groupId);
-});
+console.log("test");
+
 
 $this.find('#chat-input').on("keypress", function(event){
     if ( event.which == 13 ) {
@@ -118,9 +164,8 @@ $this.find('#chat-input').on("keypress", function(event){
         };
 
         $interval(function(){
-            $scope.worldParams['oil'] = Math.min(Math.max(0, $this.data('room_params').oil - (moment().unix() - $this.data('dt_created')) * (0.05 * 1000)));
+            $scope.worldParams['oil'] = $this.data('room_params').oil - (moment().unix() - $this.data('dt_created')) * (0.05 * 1000);
             //$scope.$apply();
-            map.titles[1].text = moment().unix();
         }, 50);
     });
 
