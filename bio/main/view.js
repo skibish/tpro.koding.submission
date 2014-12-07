@@ -57,7 +57,7 @@ var customFunc= {
                 var mapObject = mapObjects[k];
                 if (mapObject.id === user['params']['country']) {
                     mapObject.params = user['params'];
-                    mapObject.login = user['Login'];
+                    mapObject.login = user['login'];
                     mapObject.template = function() {
                         var html = "<div> Login: "+ this.login +"</div>";
                         html += "<div> Country: "+ this.params.country +"</div>";
@@ -93,11 +93,7 @@ var customFunc= {
 }
 
 var users = $this.data('users');
-console.log(users);
-customFunc.updateUserData(users); 
-
-console.log("test");
-
+customFunc.updateUserData(users);
 
 $this.find('#chat-input').on("keypress", function(event){
     if ( event.which == 13 ) {
