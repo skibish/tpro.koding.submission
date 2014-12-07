@@ -58,14 +58,6 @@
             body {
               min-height: 100%;
             }
-            
-            #mapdiv {
-                background: #101b4c;
-                color:#ffffff;
-                width: 100%;
-                height: 620px;
-                font-size: 11px;
-            }
         </style>
         
         <script src="/assets/js/bootstrap.min.js"></script>
