@@ -18,16 +18,14 @@
 
     
         <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-    
-        <!-- Optional theme -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+
         <link rel="stylesheet" href="/assets/map/ammap.css">
         <?=$this->put_stylesheets()?>
         <?//$this->scope->assets->css->put_view()?>
 
         <script src="<?=$this->scope->lib->url('js/oxygen.js')?>"></script>
-        <script src="<?=$this->scope->lib->url('js/jquery-ui-1.8.20.custom.min.js')?>"></script>
+        <script src="<?=$this->scope->lib->url('js/jquery-ui-1.8.20.custom.min.js')?>"></script>
         <script src="<?=$this->scope->lib->url('js/moment.js')?>"></script>
         <script src="<?=$this->scope->lib->url('js/angular.js')?>"></script>
         <script type="text/javascript" src="http://ulow.koding.io:8000/faye/client.js"></script>
@@ -60,13 +58,15 @@
             }
         </style>
         
-        <script src="/assets/js/bootstrap.min.js"></script>
-        <script src="/assets/map/ammap.js" type="text/javascript"></script>
-        <script src="/assets/map/maps/js/continentsLow.js" type="text/javascript"></script>
-        <script src="/assets/map/themes/dark.js" type="text/javascript"></script>
+      
     </head>
 
     <body>
         <?=$body?>
+        
+        <script src="/assets/js/bootstrap.min.js"></script>
+        <script src="/assets/map/ammap.js" type="text/javascript"></script>
+        <script src="/assets/map/maps/js/continentsLow.js" type="text/javascript"></script>
+        <script src="/assets/map/themes/dark.js" type="text/javascript"></script>
     </body>
 </html>
