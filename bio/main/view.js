@@ -229,7 +229,8 @@ $this.find('#chat-input').on("keypress", function(event){
                     }
 
                     //number of factories
-                    var numOfFactories = (1000*userParams.industry);
+                    var numOfFactories = (100*userParams.industry);
+                    userParams['work-places'] = numOfFactories * 50;
 
                     //happiness
                     var sumPollution = (
@@ -252,7 +253,7 @@ $this.find('#chat-input').on("keypress", function(event){
                     );
 
                     //death number
-                    var deathNumber = (
+                    var deathNumber = (((userParams['money']/userParams['work-places'] < userParams['population'])?100:0) + (
                         (population*0.1) + 
                         (1-parseInt(userParams.medicine)*0.5) +
                         (
@@ -260,30 +261,26 @@ $this.find('#chat-input').on("keypress", function(event){
                                 (parseInt($scope.worldParams['pollution-air'])) +
                                 (parseInt($scope.worldParams['pollution-water'])) +
                                 (parseInt($scope.worldParams['pollution-water']))
-                            ) / 1000
+                            ) / 300
                         ) + 
                         (
                             (100 - parseInt(userParams.happiness)) * 100
                         )
-                    ) / 12;
-                    
-                    userParams.population = Math.max(
-                        0, 
-                        userParams.population - ((moment().unix() - $this.data('dt_created')) * deathNumber)
-                    );
+                    ) / 12) * 0.7;
 
                     //birth number
-                    var birthNumber = (100 * userParams.happiness * (userParams.medicine/100));
-                    userParams.population = Math.max(
+                    var birthNumber = 100 + (userParams.happiness * (userParams.medicine/100));
+                    userParams.population = (population <= 0) ? 0 : Math.max(
                         0, 
-                        userParams.population + ((moment().unix() - $this.data('dt_created')) * birthNumber)
+                        userParams.population + ((moment().unix() - $this.data('dt_created')) * (birthNumber-deathNumber))
                     );
 
                     //earnings
-                    var earnings = numOfFactories * 
-                        (1 + userParams['applied-science']) + 
-                        Math.min(userParams['work-places'], userParams['population']) * 0.0001 * userParams['taxes'];
-                    userParams.money = userParams.money + ((moment().unix() - $this.data('dt_created')) * earnings);
+                    var earnings = (numOfFactories * 
+                        (1 + userParams['applied-science']/100) + 
+                        Math.min(userParams['work-places'], userParams['population']) * 0.0001 * userParams['taxes']) -
+                        userParams['work-places']/userParams['population'];
+                    userParams.money = Math.max(0, userParams.money + ((moment().unix() - $this.data('dt_created')) * earnings));
 
                     /**********/
                     /* GLOBAL */
