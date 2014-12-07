@@ -52,7 +52,7 @@
                 </div>
                 <div class="panel-body">
                     <div style="font-family: monospace">
-                        <?foreach($this->localParams as $localParam){?>
+                        <?foreach($this->localParams as $localParam => $properties){?>
                         <div class="btn-group" role="group" aria-label="<?=ucfirst($localParam)?>" style="margin-bottom: 4px;">
                             <a class="btn btn-sm btn-default" style="width: 320px;"><?=ucfirst($localParam)?></a>
                             <button type="button" class="btn btn-sm btn-success increase" data-param="<?=$localParam?>">+</button>

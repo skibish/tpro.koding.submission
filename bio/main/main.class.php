@@ -7,12 +7,41 @@
             $this->room = Bio_Entity_Room::all()[1];
             $this->roomParams = json_decode($this->room['params'], true);
             $this->user = $this->scope->auth->getCurrentUser();
+
+            foreach($this->user->getRooms() as $room){ 
+                if($room['user_id'] == $this->user->getUserId()){
+                    $this->roomUser = $room; 
+                    break; 
+                }
+            }
+            $this->userParams = json_decode($this->roomUser['params'], true);
+
             $this->localParams = array(
-                'industry',
-                'taxes',
-                'applied-science',
-                'eco-science',
-                'medicine'
+                'industry'        => array(
+                    'cost' => array(
+                        'money' => $this->userParams['industry']*1000
+                    ),
+                ),
+                'taxes'           => array(
+                    'cost' => array(
+                        'money' => 0
+                    ),
+                ),
+                'applied-science' => array(
+                    'cost' => array(
+                        'money' => $this->userParams['industry']*1000
+                    ),
+                ),
+                'eco-science'     => array(
+                    'cost' => array(
+                        'money' => $this->userParams['industry']*1000
+                    ),
+                ),
+                'medicine'        => array(
+                    'cost' => array(
+                        'money' => $this->userParams['industry']*1000
+                    )
+                )
             );
             $this->broadcast = new Oxygen_Communication_Broadcast("http://ulow.koding.io:8000/faye");
         }
@@ -44,13 +73,14 @@
         }
 
         public function rpc_increase($args){
-            if(isset($args->param) && in_array($args->param, $this->localParams)){
+            if(isset($args->param, $this->localParams[$args->param])){
                 $amount = 10;
-                foreach($this->user->getRooms() as $room){ break; }
-                $params = json_decode($room['params'], true);
-                $params[$args->param] += $amount;
-                $room['params'] = json_encode($params);
-                $room->__submit();
+                $this->userParams[$args->param] += $amount;
+                foreach($this->localParams[$args->param]['cost'] as $costParam => $value){
+                    $this->userParams[$costParam] -= $value;
+                }
+                $this->roomUser['params'] = json_encode($this->userParams);
+                $this->roomUser->__submit();
                 $this->broadcast->publish("/world", array(
                     "param"=>$args->param,
                     "amount"=>$amount,
@@ -61,13 +91,11 @@
         }
 
         public function rpc_decrease($args){
-            if(isset($args->param) && in_array($args->param, $this->localParams)){
+            if(isset($args->param, $this->localParams[$args->param])){
                 $amount = -10;
-                foreach($this->user->getRooms() as $room){ break; }
-                $params = json_decode($room['params'], true);
-                $params[$args->param] += $amount;
-                $room['params'] = json_encode($params);
-                $room->__submit();
+                $this->userParams[$args->param] += $amount;
+                $this->roomUser['params'] = json_encode($this->userParams);
+                $this->roomUser->__submit();
                 $this->broadcast->publish("/world", array(
                     "param"=>$args->param,
                     "amount"=>$amount,
