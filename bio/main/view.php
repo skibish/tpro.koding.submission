@@ -51,20 +51,14 @@
                     <h3 class="panel-title">Actions</h3>
                 </div>
                 <div class="panel-body">
-                    <div class="btn-group" role="group" aria-label="...">
-                        <button type="button" class="btn btn-default">Left</button>
-                        <button type="button" class="btn btn-default">Middle</button>
-                        <button type="button" class="btn btn-default">Right</button>
-                    </div>
-                    <div class="btn-group" role="group" aria-label="...">
-                        <button type="button" class="btn btn-default">Left</button>
-                        <button type="button" class="btn btn-default">Middle</button>
-                        <button type="button" class="btn btn-default">Right</button>
-                    </div>
-                    <div class="btn-group" role="group" aria-label="...">
-                        <button type="button" class="btn btn-default">Left</button>
-                        <button type="button" class="btn btn-default">Middle</button>
-                        <button type="button" class="btn btn-default">Right</button>
+                    <div style="font-family: monospace">
+                        <?foreach($this->localParams as $localParam){?>
+                        <div class="btn-group" role="group" aria-label="<?=ucfirst($localParam)?>" style="margin-bottom: 4px;">
+                            <a class="btn btn-sm btn-default" style="width: 320px;"><?=ucfirst($localParam)?></a>
+                            <button type="button" class="btn btn-sm btn-success increase" data-param="<?=$localParam?>">+</button>
+                            <button type="button" class="btn btn-sm btn-danger decrease" data-param="<?=$localParam?>">-</button>
+                        </div>
+                        <?}?>
                     </div>
                 </div>
             </div>

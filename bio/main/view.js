@@ -75,8 +75,9 @@ var customFunc= {
                     };
                     mapObject.updateTemplate = function() {
                         mapObject.title = mapObject.template();
-                        
-                    }();
+                    };
+
+                    mapObject.updateTemplate();
 
                     mapObject.color = '#'+user['hash'].substr(-6);
                     var getLighten = function(color, lum){
@@ -145,8 +146,15 @@ $this.find('#chat-input').on("keypress", function(event){
             });
             $scope.client.subscribe('/world', function(message) {
                 console.log(message);
-                for(var k in message.world){
-                    $scope.worldParams[k] += message.world[k];
+                if(message.world){
+                    for(var k in message.world){
+                        $scope.worldParams[k] += message.world[k];
+                    }
+                }else if(message.param){
+                    var mapObject = customFunc.getMapObject(message.author);
+                    mapObject.params[message.param] += message.amount;
+                    mapObject.updateTemplate();
+                    map.validateData();
                 }
                 $scope.$apply();
             });
@@ -188,8 +196,29 @@ $this.find('#chat-input').on("keypress", function(event){
 
 var timeUpdate = function(){
     var timeDiff = moment().unix() - $this.data('dt_created');
-    map.titles[1].text = moment(new Date((moment().unix() + (timeDiff * 0.17 * 31536000)) * 1000)).format("MMMM Do YYYY");
+    map.titles[1].text = moment(new Date((moment().unix() + (timeDiff * 60*60*24*30)) * 1000)).format("MMMM YYYY");
     map.validateData();
 }
 
 angular.bootstrap($this.find('.ng'), ['main']);
+
+
+$this.find('.increase').click(function(){
+    $this.remote('increase', {
+        param: $(this).data("param")
+    }, function(err, res){
+        if(err){
+            console.log(err);
+        }
+    });
+});
+
+$this.find('.decrease').click(function(){
+    $this.remote('decrease', {
+        param: $(this).data("param")
+    }, function(err, res){
+        if(err){
+            console.log(err);
+        }
+    });
+});
