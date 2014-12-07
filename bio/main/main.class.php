@@ -106,7 +106,7 @@
         }
 
         public function rpc_sendMoney($args){
-            if(isset($args->receiver, $args->amount) && $args->receiver != $this->user['login']){
+            if(isset($args->receiver, $args->amount) && strtolower($args->receiver) != strtolower($this->user['login'])){
                 $amount = max(0, (int)$args->amount);
 
                 $receiver = null;

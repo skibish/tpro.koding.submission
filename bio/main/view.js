@@ -163,9 +163,9 @@ $this.find('#chat-input').on("keypress", function(event){
                     if(message.action == 'send_money'){
                         var mapObjectSender = customFunc.getMapObject(message.author);
                         var mapObjectReceiver = customFunc.getMapObject(message.receiver);
-                        mapObjectSender.params['money'] -= message.amount;
+                        mapObjectSender.params['money'] = parseInt(mapObjectSender.params['money']) - parseInt(message.amount);
                         mapObjectSender.updateTemplate();
-                        mapObjectReceiver.params['money'] += message.amount;
+                        mapObjectReceiver.params['money'] = parseInt(mapObjectReceiver.params['money']) + parseInt(message.amount);
                         mapObjectReceiver.updateTemplate();
                         map.validateData();
                     }
