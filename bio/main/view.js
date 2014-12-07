@@ -75,7 +75,7 @@ $this.find('#chat-input').on("keypress", function(event){
 
 (function() {
     var app = angular.module('main', []);
-    app.controller('WorldDataController', function($scope) {
+    app.controller('WorldDataController', function($scope, $interval) {
         $scope.worldParams = {};
         $scope.client = new Faye.Client('http://ulow.koding.io:8000/faye');
         
@@ -116,6 +116,17 @@ $this.find('#chat-input').on("keypress", function(event){
                 }
             });
         };
+
+        $interval(function(){
+            $scope.worldParams['oil'] = $this.data('room_params').oil - (moment().unix() - $this.data('dt_created')) * (0.05 * 1000);
+            //$scope.$apply();
+        }, 50);
+    });
+
+    app.filter('round', function(){
+        return function(input){
+            return Math.round(input, 0);
+        }
     });
 
     /*app.controller('UsersDataController', function($interval) {

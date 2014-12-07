@@ -1,4 +1,4 @@
-<?o('div', array('user'=>array('login'=>$this->user['login'])))?>
+<?o('div', array('user'=>array('login'=>$this->user['login']), 'room_params'=>$this->roomParams, 'dt_created'=>$this->room['dt_created']))?>
 <?/*<?=$this->room?>
 <br>
 <div>Health: <?=$this->roomParams['health']?></div>
@@ -120,7 +120,7 @@
             <abbr title="Oil">
                 <span class="glyphicon glyphicon-tint" style="color: #34495e;"></span>
             </abbr>
-            {{ worldParams['oil'] }}
+            {{ worldParams['oil'] | round }}
         </div>
         <div class='col-md-1'>
             <abbr title="Coal">
