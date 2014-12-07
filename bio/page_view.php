@@ -74,7 +74,7 @@
         <script src="/assets/map/themes/dark.js" type="text/javascript"></script>
     </head>
 
-    <body ng-app='game'>
+    <body>
         <?=$body?>
     </body>
 </html>

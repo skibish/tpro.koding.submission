@@ -1,13 +1,3 @@
-var client = new Faye.Client('http://ulow.koding.io:8000/faye');
-client.subscribe('/messages', function(message) {
-    console.log(message);
-    if(message.text){
-        var user = $this.data('user');
-        var color = (user.login == message.author)?'success':'info';
-        $this.find('.messagesPane').prepend('<div class="alert alert-'+color+'"><div class="author">'+message.author+' <span style="float: right;">'+moment().format("hh:mm:ss")+'</span></div> '+ message.text+'</div>');
-    }
-});
-
 $this.find('.spendHealth').click(function(){
     $this.remote('spendHealth', {health: -1000}, function(err, res){
         console.log(res);
@@ -84,21 +74,51 @@ $this.find('#chat-input').on("keypress", function(event){
 });
 
 (function() {
-    var app = angular.module('game', []);
-    app.controller('WorldDataController', function($interval) {
-        var self = this;
-        self.json = '';
+    var app = angular.module('main', []);
+    app.controller('WorldDataController', function($scope) {
+        $scope.worldParams = {};
+        $scope.client = new Faye.Client('http://ulow.koding.io:8000/faye');
         
+        $scope.initFaye = function(){
+            $scope.client.subscribe('/messages', function(message) {
+                console.log(message);
+                if(message.text){
+                    var user = $this.data('user');
+                    var color = (user.login == message.author)?'success':'info';
+                    $this.find('.messagesPane').prepend('<div class="alert alert-'+color+'"><div class="author">'+message.author+' <span style="float: right;">'+moment().format("hh:mm:ss")+'</span></div> '+ message.text+'</div>');
+                }
+            });
+            $scope.client.subscribe('/world', function(message) {
+                console.log(message);
+                for(var k in message.world){
+                    $scope.worldParams[k] = message.world[k];
+                }
+                $scope.$apply();
+            });
+        }();
+        
+        $scope.loadWorldData = function(){
             $this.remote("getWorldData", {}, function(err, res) {
                 if (err) {
                     console.log('fail');    
                 } else {
-                    self.json = res;
+                    $scope.worldParams = world_params = res;
+                    $scope.$apply();
                 }
             });
+        }();
+
+        $scope.spendHealth = function(){
+            $this.remote("spendHealth", {'health':-100}, function(err, res) {
+                if (err) {
+                    console.log('fail');    
+                } else {
+                }
+            });
+        };
     });
 
-    app.controller('UsersDataController', function($interval) {
+    /*app.controller('UsersDataController', function($interval) {
         var self = this;
         self.json = '';
         
@@ -109,6 +129,6 @@ $this.find('#chat-input').on("keypress", function(event){
                     self.json = res;
                 }
             });
-    });
+    });*/
     
 })();

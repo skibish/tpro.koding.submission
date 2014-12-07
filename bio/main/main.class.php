@@ -29,7 +29,7 @@
             $this->room->__submit();
  
             $broadcast = new Oxygen_Communication_Broadcast("http://ulow.koding.io:8000/faye");
-            $broadcast->publish("/messages", array(
+            $broadcast->publish("/world", array(
                 "world"=> array("health"=>$args->health),
                 "authToken"=>"h8yg7tf6r45ed5rf6gt7y8"
             ));

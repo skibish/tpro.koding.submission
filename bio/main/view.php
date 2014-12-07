@@ -90,48 +90,49 @@
     </div>
 </div>
 
-<div class="row">
-    <div class='col-md-12 info-bar' ng-controller='WorldDataController as worldData'>
+<div class="row" ng-app="main">
+    <div class='col-md-12 info-bar' ng-controller='WorldDataController'>
         <div class='col-md-1'>
             <abbr title="Health">
-                <span class="glyphicon glyphicon-heart" style="color: #e74c3c;"></span>
+                <span class="glyphicon glyphicon-heart" style="color: #e74c3c;" ng-click="spendHealth"></span>
             </abbr>
-            {{ worldData.json['health'] }}
+            {{ worldParams['health'] }}
         </div>
         <div class='col-md-1'>
             <abbr title="Air">
                 <span class="glyphicon glyphicon-cloud" style="color: #95a5a6;"></span>
             </abbr>
-            {{ worldData.json['pollution-air'] }}
+            {{ worldParams['pollution-air'] }}
         </div>
         <div class='col-md-1'>
             <abbr title="Water">
                 <span class="glyphicon glyphicon-tint" style="color: #3498db;"></span>
             </abbr>
-            {{ worldData.json['pollution-water'] }}</div>
+            {{ worldParams['pollution-water'] }}
+        </div>
         <div class='col-md-1'>
             <abbr title="Earth">
                 <span class="glyphicon glyphicon-globe" style="color: #16a085;"></span>
             </abbr>
-            {{ worldData.json['pollution-earth'] }}
+            {{ worldParams['pollution-earth'] }}
         </div>
         <div class='col-md-1'>
             <abbr title="Oil">
                 <span class="glyphicon glyphicon-tint" style="color: #34495e;"></span>
             </abbr>
-            {{ worldData.json['oil'] }}
+            {{ worldParams['oil'] }}
         </div>
         <div class='col-md-1'>
             <abbr title="Coal">
                 <span class="glyphicon glyphicon-fire" style="color: #e67e22;"></span>
             </abbr>
-            {{ worldData.json['coil'] }}
+            {{ worldParams['coil'] }}
         </div>
         <div class='col-md-1'>
             <abbr title="Rain forests">
                 <span class="glyphicon glyphicon-leaf" style="color: #2ecc71;"></span>
             </abbr>
-            {{ worldData.json['rain-forests'] }}
+            {{ worldParams['rain-forests'] }}
         </div>
     </div>
 </div>
