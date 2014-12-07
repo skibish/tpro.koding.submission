@@ -74,6 +74,7 @@ window.customFunc = {
                         html += "<div> Population: "+ this.params['population'] +"</div>";
                         html += "<div> Taxes: "+ this.params['taxes'] +"</div>";
                         html += "<div>Work places: "+ this.params['work-places'] +"</div>";
+                        html += "<div>Happiness: "+ this.params['happiness'] +"</div>";
                         return html;
                     };
                     mapObject.updateTemplate = function() {
@@ -196,13 +197,53 @@ $this.find('#chat-input').on("keypress", function(event){
         
         $scope.timeUpdate = function(){
             var timeDiff = moment().unix() - $this.data('dt_created');
-            $scope.worldTime = moment(new Date((moment().unix() + (timeDiff * 60*60*24*30)) * 1000)).format("MMMM YYYY");
+            $scope.worldTime = moment(new Date((moment().unix() + (timeDiff * 60*60*24*30)) * 1000)).format("YYYY MMMM");
             //map.validateData();
         }
 
         $interval(function() {
             $scope.worldParams['oil'] = Math.min(Math.max(0, $this.data('room_params').oil - (moment().unix() - $this.data('dt_created')) * (0.05 * 1000)));
             $scope.timeUpdate();
+
+            if(!isNaN($scope.worldParams['pollution-air'])){
+                var userParams = customFunc.getMapObject($this.data('user').login).params;
+                var population = parseInt(userParams.population);
+
+                //death number
+                var deathNumber = -1 * (
+                    (population*0.1) + 
+                    (parseInt(userParams.medicine)*0.5) +
+                    (
+                        (
+                            (parseInt($scope.worldParams['pollution-air'])) +
+                            (parseInt($scope.worldParams['pollution-water'])) +
+                            (parseInt($scope.worldParams['pollution-water']))
+                        ) / 1000
+                    ) + 
+                    (
+                        (100 - parseInt(userParams.happiness)) * 100
+                    )
+                ) / 12;
+                
+                userParams.population = Math.min(
+                    Math.max(
+                        0, 
+                        population - ((moment().unix() - $this.data('dt_created')) * deathNumber)
+                    )
+                );
+
+                //birth number
+                /*var birthNumber = (100 * userParams.happiness * (userParams.medicine/100));
+                userParams.population = Math.min(
+                    Math.max(
+                        0, 
+                        population - ((moment().unix() - $this.data('dt_created')) * birthNumber)
+                    )
+                );*/
+
+                customFunc.getMapObject($this.data('user').login).params = userParams;
+                map.validateData();
+            }
         }, 50); 
         
     });

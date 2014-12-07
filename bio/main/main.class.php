@@ -20,7 +20,7 @@
                 ),
                 'taxes'           => array(
                     'cost' => array(
-                        'money' => 0
+                        'happiness' => 1
                     ),
                 ),
                 'applied-science' => array(
@@ -39,6 +39,7 @@
                     )
                 )
             );
+
             $this->broadcast = new Oxygen_Communication_Broadcast("http://ulow.koding.io:8000/faye");
         }
 
@@ -70,7 +71,7 @@
 
         public function rpc_increase($args){
             if(isset($args->param, $this->localParams[$args->param])){
-                $amount = 10;
+                $amount = 1;
                 $this->userParams[$args->param] += $amount;
                 foreach($this->localParams[$args->param]['cost'] as $costParam => $value){
                     $this->userParams[$costParam] -= $value;
@@ -88,7 +89,7 @@
 
         public function rpc_decrease($args){
             if(isset($args->param, $this->localParams[$args->param])){
-                $amount = -10;
+                $amount = -1;
                 $this->userParams[$args->param] += $amount;
                 $this->roomUser['params'] = json_encode($this->userParams);
                 $this->roomUser->__submit();
