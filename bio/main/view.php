@@ -1,4 +1,4 @@
-<?o()?>
+<?o('div', array('user'=>array('login'=>$this->user['login'])))?>
 <?=$this->room?>
 <br>
 <div>Health: <?=$this->roomParams['health']?></div>
