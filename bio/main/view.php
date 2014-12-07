@@ -94,7 +94,7 @@
     <div class='col-md-12 info-bar' ng-controller='WorldDataController'>
         <div class='col-md-1'>
             <abbr title="Health">
-                <span class="glyphicon glyphicon-heart" style="color: #e74c3c;" ng-click="spendHealth"></span>
+                <span class="glyphicon glyphicon-heart" style="color: #e74c3c;" ng-click="spendHealth()"></span>
             </abbr>
             {{ worldParams['health'] }}
         </div>

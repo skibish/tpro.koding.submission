@@ -91,7 +91,7 @@ $this.find('#chat-input').on("keypress", function(event){
             $scope.client.subscribe('/world', function(message) {
                 console.log(message);
                 for(var k in message.world){
-                    $scope.worldParams[k] = message.world[k];
+                    $scope.worldParams[k] += message.world[k];
                 }
                 $scope.$apply();
             });
