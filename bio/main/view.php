@@ -77,8 +77,8 @@
             <!-- /Chat box -->
             
             <!-- Chat input -->
-            <div class="form-group">
-                <input type="text" id="chat-input" class="form-control" placeholder="Say hello to everyone">
+            <div class="form-group" ng-modules="main">
+                <input type="text" id="chat-input" class="form-control" placeholder="<?= $this->user['login'] ?>, say hello to everyone!">
             </div>
             <!-- /Chat input -->
         </div>
