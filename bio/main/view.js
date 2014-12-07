@@ -24,19 +24,19 @@ var map = AmCharts.makeChart("mapdiv", {
         areas: [
             {
                 id: "europe",
-                title: "<h1>Holy</h1>"
+                title: "Europe"
             },
             {
                 id: "north_america",
-                title: "<h1>Holy</h1>"
+                title: "North America"
             },
             {
                 id: "africa",
-                title: "<h1>Holy</h1>"
+                title: "Africa"
             },
             {
                 id: "asia",
-                title: "<h1>Holy</h1>"
+                title: "Asia"
             }
         ],
     },
@@ -44,8 +44,7 @@ var map = AmCharts.makeChart("mapdiv", {
     areasSettings: {
         autoZoom: true,
         selectedColor: "#8e44ad",
-    },
-    smallMap: {}
+    }
 });
 
 window.userMap = {};
@@ -63,26 +62,6 @@ window.customFunc = {
                 if (mapObject.id === user['params']['country']) {
                     mapObject.params = user['params'];
                     mapObject.login = user['login'];
-                    mapObject.template = function() {
-                        var html = "<div> Login: "+ this.login +"</div>";
-                        html += "<div> Country: "+ this.params.country +"</div>";
-                        html += "<div>Applied science: "+ this.params['applied-science'] +"</div>";
-                        html += "<div>Eco science: "+ this.params['eco-science'] +"</div>";
-                        html += "<div> industry: "+ this.params['industry'] +"</div>";
-                        html += "<div> Medicine: "+ this.params['medicine'] +"</div>";
-                        html += "<div> Money: "+ this.params['money'] +"</div>";
-                        html += "<div> Population: "+ this.params['population'] +"</div>";
-                        html += "<div> Taxes: "+ this.params['taxes'] +"</div>";
-                        html += "<div>Work places: "+ this.params['work-places'] +"</div>";
-                        html += "<div>Happiness: "+ this.params['happiness'] +"</div>";
-                        return html;
-                    };
-                    mapObject.updateTemplate = function() {
-                        this.title = this.template();
-                    };
-
-                    mapObject.updateTemplate();
-
                     mapObject.color = '#'+user['hash'].substr(-6);
                     var getLighten = function(color, lum){
                         return Math.max(16, Math.min(255, Math.round(parseInt(color, 16) + lum))).toString(16);
@@ -167,17 +146,13 @@ $this.find('#chat-input').on("keypress", function(event){
                 }else if(message.param){
                     var mapObject = customFunc.getMapObject(message.author);
                     mapObject.params[message.param] += message.amount;
-                    mapObject.updateTemplate();
-                    map.validateData();
                 }else if(message.action){
                     if(message.action == 'send_money'){
                         var mapObjectSender = customFunc.getMapObject(message.author);
                         var mapObjectReceiver = customFunc.getMapObject(message.receiver);
                         mapObjectSender.params['money'] = parseInt(mapObjectSender.params['money']) - parseInt(message.amount);
-                        mapObjectSender.updateTemplate();
                         mapObjectReceiver.params['money'] = parseInt(mapObjectReceiver.params['money']) + parseInt(message.amount);
                         mapObjectReceiver.updateTemplate();
-                        map.validateData();
                     }
                 }
                 $scope.$apply();

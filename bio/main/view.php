@@ -54,12 +54,12 @@
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs" role="tablist">
                             <li role="presentation" class="active"><a href="#actions" aria-controls="home" role="tab" data-toggle="tab">Actions</a></li>
-                            <li role="presentation"><a href="#active-user" aria-controls="profile" role="tab" data-toggle="tab">{{ usersData.login }}</a></li>
+                            <li role="presentation"><a href="#active-user" aria-controls="profile" role="tab" data-toggle="tab">{{ usersData.login | uppercase }}</a></li>
                         </ul>
                         <!-- Tab panes -->
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane active" id="actions">
-                                <div style="font-family: monospace">
+                                <div style="margin-top: 20px;">
                                     <?foreach($this->localParams as $localParam => $properties){?>
                                         <div class="btn-group" role="group" aria-label="<?=ucfirst($localParam)?>" style="margin-bottom: 4px;">
                                             <a class="btn btn-sm btn-default" style="width: 320px;"><?=ucfirst($localParam)?></a>
@@ -68,22 +68,60 @@
                                         </div>
                                     <?}?>
                                 <div style="margin-bottom: 4px;">
-                                    <input type="text" class="receiver" placeholder="Recever login" style="width: 180px">
-                                    <input type="text" class="amount" placeholder="Amount" style="width: 80px">
-                                    <button type="button" class="btn btn-sm btn-success sendMoney">Send</button>
+                                    <form class="form-inline" role="form">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control receiver" placeholder="Recever login" style="width: 180px">
+                                        </div>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control amount" placeholder="Amount" style="width: 80px">
+                                        </div>
+                                        <button type="button" class="btn btn-success sendMoney">Send</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
                             <div role="tabpanel" class="tab-pane" id="active-user">
-                                Applied science: {{ usersData.params['applied-science'] }}<br>
-                                Eco science: {{ usersData.params['eco-science'] }}<br>
-                                Industry: {{ usersData.params['industry'] }}<br>
-                                Medicine: {{ usersData.params['medicine'] }}<br>
-                                Money: {{ usersData.params['money'] }}<br>
-                                Population: {{ usersData.params['population'] }}<br>
-                                Population: {{ usersData.params['population'] }}<br>
-                                Taxes: {{ usersData.params['taxes'] }}<br>
-                                Work places: {{ usersData.params['work-places'] }}
+                                <table class="table well" style="margin-top: 20px;">
+                                    <tr>
+                                        <th>Applied science</th>
+                                        <td>{{ usersData.params['applied-science'] }}</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                       <th>Eco science</th>
+                                       <td>{{ usersData.params['eco-science'] }}</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                         <th>Industry</th>
+                                         <td>{{ usersData.params['industry'] }}</td>
+                                         
+                                    </tr>
+                                    
+                                    <tr>
+                                       <th>Medicine</th>
+                                       <td>{{ usersData.params['medicine'] }}</td>
+                                    </tr>
+                                     
+                                    <tr>
+                                        <th>Money</th>
+                                        <td>{{ usersData.params['money'] | currency }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Population</th>
+                                        <td>{{usersData.params['population'] | number:0 }}</td>
+                                    </tr>
+                                       
+                                    <tr>
+                                        <th>Taxes</th>
+                                        <td>{{ usersData.params['taxes'] }}</td>
+                                    </tr>
+                                       
+                                    <tr>
+                                        <th>Work places</th>
+                                        <td>{{ usersData.params['work-places'] }}</td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -96,16 +134,16 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">Chat</h3>
                 </div>
-                <div class="messagesPane panel-body" style="height: 240px; overflow-y: scroll">
+                <div class="messagesPane panel-body" style="height: 200px; overflow-y: scroll">
+                </div>
+                <div class="panel-footer">
+                    <!-- Chat box -->
+                    <div class="form-group" ng-modules="main">
+                        <input type="text" id="chat-input" class="form-control" placeholder="<?= $this->user['login'] ?>, say hello to everyone!">
+                    </div>
+                    <!-- /Chat input -->
                 </div>
             </div>
-            <!-- /Chat box -->
-            
-            <!-- Chat input -->
-            <div class="form-group" ng-modules="main">
-                <input type="text" id="chat-input" class="form-control" placeholder="<?= $this->user['login'] ?>, say hello to everyone!">
-            </div>
-            <!-- /Chat input -->
         </div>
     </div>
 </div>
