@@ -60,7 +60,7 @@
             }
             
             #mapdiv {
-                background: #3f3f4f;
+                background: #101b4c;
                 color:#ffffff;
                 width: 100%;
                 height: 620px;

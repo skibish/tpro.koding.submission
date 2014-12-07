@@ -8,6 +8,8 @@ $this.find('.spendHealth').click(function(){
 var map = AmCharts.makeChart("mapdiv", {
     type: "map",
     theme: "dark",
+    preventDragOut: true,
+    dragMap: false,
     titles: [
         {
             text: "Biosphere project",
@@ -38,7 +40,7 @@ var map = AmCharts.makeChart("mapdiv", {
     
     areasSettings: {
         autoZoom: true,
-        selectedColor: "#8e44ad"
+        selectedColor: "#8e44ad",
     },
     smallMap: {}
 });
