@@ -36,7 +36,7 @@
 <a href="javascript:void(0)" class="spendHealth">Spend 10 health</a>
 */?>
 
-<div class="container container-biosphere ng" ng-modules="main">
+<div class="container container-biosphere ng" ng-modules="main" ng-controller="UserController">
     <div class="row">
         <div class="col-md-8">
             <div class="panel panel-default">
@@ -49,22 +49,42 @@
             
             <!-- Actions -->
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Actions</h3>
-                </div>
                 <div class="panel-body">
-                    <div style="font-family: monospace">
-                        <?foreach($this->localParams as $localParam => $properties){?>
-                        <div class="btn-group" role="group" aria-label="<?=ucfirst($localParam)?>" style="margin-bottom: 4px;">
-                            <a class="btn btn-sm btn-default" style="width: 320px;"><?=ucfirst($localParam)?></a>
-                            <button type="button" class="btn btn-sm btn-success increase" data-param="<?=$localParam?>">+</button>
-                            <button type="button" class="btn btn-sm btn-danger decrease" data-param="<?=$localParam?>">-</button>
+                    <div role="tabpanel">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#actions" aria-controls="home" role="tab" data-toggle="tab">Actions</a></li>
+                            <li role="presentation"><a href="#active-user" aria-controls="profile" role="tab" data-toggle="tab">{{ usersData.login }}</a></li>
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="actions">
+                                <div style="font-family: monospace">
+                                    <?foreach($this->localParams as $localParam => $properties){?>
+                                        <div class="btn-group" role="group" aria-label="<?=ucfirst($localParam)?>" style="margin-bottom: 4px;">
+                                            <a class="btn btn-sm btn-default" style="width: 320px;"><?=ucfirst($localParam)?></a>
+                                            <button type="button" class="btn btn-sm btn-success increase" data-param="<?=$localParam?>">+</button>
+                                            <button type="button" class="btn btn-sm btn-danger decrease" data-param="<?=$localParam?>">-</button>
+                                        </div>
+                                    <?}?>
+                                <div style="margin-bottom: 4px;">
+                                    <input type="text" class="receiver" placeholder="Recever login" style="width: 180px">
+                                    <input type="text" class="amount" placeholder="Amount" style="width: 80px">
+                                    <button type="button" class="btn btn-sm btn-success sendMoney">Send</button>
+                                </div>
+                            </div>
                         </div>
-                        <?}?>
-                        <div style="margin-bottom: 4px;">
-                            <input type="text" class="receiver" placeholder="Recever login" style="width: 180px">
-                            <input type="text" class="amount" placeholder="Amount" style="width: 80px">
-                            <button type="button" class="btn btn-sm btn-success sendMoney">Send</button>
+                            <div role="tabpanel" class="tab-pane" id="active-user">
+                                Applied science: {{ usersData.params['applied-science'] }}<br>
+                                Eco science: {{ usersData.params['eco-science'] }}<br>
+                                Industry: {{ usersData.params['industry'] }}<br>
+                                Medicine: {{ usersData.params['medicine'] }}<br>
+                                Money: {{ usersData.params['money'] }}<br>
+                                Population: {{ usersData.params['population'] }}<br>
+                                Population: {{ usersData.params['population'] }}<br>
+                                Taxes: {{ usersData.params['taxes'] }}<br>
+                                Work places: {{ usersData.params['work-places'] }}
+                            </div>
                         </div>
                     </div>
                 </div>
