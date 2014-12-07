@@ -157,10 +157,18 @@ $this.find('#chat-input').on("keypress", function(event){
                 }else if(message.param){
                     var mapObject = customFunc.getMapObject(message.author);
                     mapObject.params[message.param] += message.amount;
-                    console.log(map);
-                    console.log(mapObject);
                     mapObject.updateTemplate();
                     map.validateData();
+                }else if(message.action){
+                    if(message.action == 'send_money'){
+                        var mapObjectSender = customFunc.getMapObject(message.author);
+                        var mapObjectReceiver = customFunc.getMapObject(message.receiver);
+                        mapObjectSender.params['money'] -= message.amount;
+                        mapObjectSender.updateTemplate();
+                        mapObjectReceiver.params['money'] += message.amount;
+                        mapObjectReceiver.updateTemplate();
+                        map.validateData();
+                    }
                 }
                 $scope.$apply();
             });
@@ -223,6 +231,17 @@ $this.find('.increase').click(function(){
 $this.find('.decrease').click(function(){
     $this.remote('decrease', {
         param: $(this).data("param")
+    }, function(err, res){
+        if(err){
+            console.log(err);
+        }
+    });
+});
+
+$this.find('.sendMoney').click(function(){
+    $this.remote('sendMoney', {
+        receiver: $this.find('.receiver').val(),
+        amount: $this.find('.amount').val()
     }, function(err, res){
         if(err){
             console.log(err);

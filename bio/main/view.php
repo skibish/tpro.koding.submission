@@ -61,6 +61,11 @@
                             <button type="button" class="btn btn-sm btn-danger decrease" data-param="<?=$localParam?>">-</button>
                         </div>
                         <?}?>
+                        <div style="margin-bottom: 4px;">
+                            <input type="text" class="receiver" placeholder="Recever login" style="width: 180px">
+                            <input type="text" class="amount" placeholder="Amount" style="width: 80px">
+                            <button type="button" class="btn btn-sm btn-success sendMoney">Send</button>
+                        </div>
                     </div>
                 </div>
             </div>

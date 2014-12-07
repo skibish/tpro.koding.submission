@@ -104,6 +104,39 @@
                 ));
             }
         }
+
+        public function rpc_sendMoney($args){
+            if(isset($args->receiver, $args->amount) && $args->receiver != $this->user['login']){
+                $amount = max(0, (int)$args->amount);
+
+                $receiver = null;
+                foreach($this->user->getRooms() as $room){ 
+                    if(strtolower($room->getUser()['login']) == strtolower($args->receiver)){
+                        $receiver = $room; 
+                        break; 
+                    }
+                }
+                if($receiver !== null){
+                    //send
+                    $this->userParams['money'] -= $amount;
+                    $this->roomUser['params'] = json_encode($this->userParams);
+                    $this->roomUser->__submit();
+                    //receive
+                    $receiverParams = json_decode($receiver['params'], true);
+                    $receiverParams['money'] += $amount;
+                    $receiver['params'] = json_encode($receiverParams);
+                    $receiver->__submit();
+                }
+                
+                $this->broadcast->publish("/world", array(
+                    "action"=>"send_money",
+                    "receiver"=>$args->receiver,
+                    "amount"=>$args->amount,
+                    "author"=>$this->user['login'],
+                    "authToken"=>"h8yg7tf6r45ed5rf6gt7y8"
+                ));
+            }
+        }
        
         public function rpc_submitChatText($args) {
             if (isset($args->text)) {
