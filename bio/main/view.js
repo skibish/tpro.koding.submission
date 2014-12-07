@@ -21,13 +21,21 @@ var map = AmCharts.makeChart("mapdiv", {
     dataProvider: {
         map: "continentsLow",
         getAreasFromMap: true,
-            areas: [
+        areas: [
             {
                 id: "europe",
                 title: "<h1>Holy</h1>"
             },
             {
                 id: "north_america",
+                title: "<h1>Holy</h1>"
+            },
+            {
+                id: "africa",
+                title: "<h1>Holy</h1>"
+            },
+            {
+                id: "asia",
                 title: "<h1>Holy</h1>"
             }
         ],
@@ -41,7 +49,7 @@ var map = AmCharts.makeChart("mapdiv", {
 });
 
 window.userMap = {};
-var customFunc= {
+window.customFunc = {
     getMapObject: function(login){
         return map.dataProvider.areas[userMap[login]];
     },
@@ -149,6 +157,8 @@ $this.find('#chat-input').on("keypress", function(event){
                 }else if(message.param){
                     var mapObject = customFunc.getMapObject(message.author);
                     mapObject.params[message.param] += message.amount;
+                    console.log(map);
+                    console.log(mapObject);
                     mapObject.updateTemplate();
                     map.validateData();
                 }
