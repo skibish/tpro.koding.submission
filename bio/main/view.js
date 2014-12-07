@@ -2,6 +2,9 @@ var client = new Faye.Client('http://ulow.koding.io:8000/faye');
 client.subscribe('/messages', function(message) {
     console.log('Got a message: ' + message.text);
     console.log(message);
+    if(message.text){
+        $this.find('.messagesPane').append('<div class="alert alert-info">'+message.text+'</div>');
+    }
 });
 
 $this.find('.spendHealth').click(function(){
@@ -9,7 +12,6 @@ $this.find('.spendHealth').click(function(){
         console.log(res);
         $this.refresh();
     });
-    $this.find('#chat-output').append('Got a message: ' + message.text);
 });
 
 
@@ -57,23 +59,6 @@ $this.find('#chat-input').on("keypress", function(event){
             },
             function(err, res){
                 if (res === true) {
-                    alert('submitted!');
-                }
-            }
-        );
-    }
-});
-
-$this.find('#chat-input').on("keypress", function(event){
-    if ( event.which == 13 ) {
-        $this.remote(
-            "submitChatText",
-            {
-                text: $(this).val()
-            },
-            function(err, res){
-                if (res === true) {
-                    alert('submitted!');
                 }
             }
         );
@@ -109,15 +94,5 @@ $this.find('#chat-input').on("keypress", function(event){
     });
     
 })();
-
-$this.find('body > div > div > div.container.container-biosphere > div > div:nth-child(2) > ul > li:nth-child(2)').on("click", function(){
-    $this.remote("getWorldData", {}, function(err, res) {
-        if (err) {
-            console.log('fail');
-        } else {
-            console.log(res);
-        }
-    });
-});
 
 

@@ -22,7 +22,7 @@
         public function rpc_getWorldData() {
             return $this->roomParams;
         }
-        
+
         public function rpc_spendHealth($args){
             $this->roomParams['health'] += $args->health;
             $this->room['params'] = json_encode($this->roomParams);
@@ -38,8 +38,9 @@
        
         public function rpc_submitChatText($args) {
             if (isset($args->text)) {
+                $broadcast = new Oxygen_Communication_Broadcast("http://ulow.koding.io:8000/faye");
                 $broadcast->publish("/messages", array(
-                    "text"=>"hi there",
+                    "text"=>$args->text,
                     "authToken"=>"h8yg7tf6r45ed5rf6gt7y8"
                 ));
                 return true;

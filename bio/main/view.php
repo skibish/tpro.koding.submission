@@ -52,13 +52,15 @@
         </div>
         <div class="col-md-4">
             <div class="panel panel-default" style="overflow-y: scroll">
-                <div class="panel-body" style="height: 300px;">
-                    <div style="text-align: right;" class="alert alert-success">test</div>
+                <div class="messagesPane panel-body" style="height: 300px;">
+                    <?/*<div style="text-align: right;" class="alert alert-success">test</div>
                     <div style="text-align: left;" class="alert alert-danger">test</div>
                     <div style="text-align: right;" class="alert alert-success">test</div>
                     <div style="text-align: left;" class="alert alert-danger">test</div>
                     <div style="text-align: right;" class="alert alert-success">test</div>
                     <div style="text-align: left;" class="alert alert-danger">test</div>
+                    <div class="alert alert-info"></div>*/?>
+                    
                 </div>
             </div>
         </div>
