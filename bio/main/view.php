@@ -46,6 +46,8 @@
             </div>
         </div>
         <div class="col-md-4">
+            
+            <!-- Actions -->
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Actions</h3>
@@ -62,32 +64,23 @@
                     </div>
                 </div>
             </div>
-        <!--
-            <div ng-repeat="user in users.json.users">
-                <p>{{ user['money'] }}</p>
-                <p>{{ user['industry'] }}</p>
-                <p>{{ user['applied-science'] }}</p>
-                <p>{{ user['eco-science'] }}</p>
-                <p>{{ user['medicine'] }}</p>
-                <p>{{ user['population'] }}</p>
-                <p>{{ user['taxes'] }}</p>
-                <p>{{ user['happiness'] }}</p>
-                <p>{{ user['work-places'] }}</p>
-            </div> -->
-        </div>
-        <div class="col-md-4">
+            <!-- /Actions -->
+            
+            <!-- Chat box -->
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Chat</h3>
                 </div>
-                <div class="messagesPane panel-body" style="height: 300px; overflow-y: scroll">
+                <div class="messagesPane panel-body" style="height: 265px; overflow-y: scroll">
                 </div>
             </div>
-        </div>
-        <div class="col-md-4">
+            <!-- /Chat box -->
+            
+            <!-- Chat input -->
             <div class="form-group">
                 <input type="text" id="chat-input" class="form-control" placeholder="Say hello to everyone">
             </div>
+            <!-- /Chat input -->
         </div>
     </div>
 </div>
