@@ -72,6 +72,7 @@ $this.find('#chat-input').on("keypress", function(event){
                     $input.val('');
                 }
                 $input.css({'opacity':1}).attr('disabled', false);
+                $input.focus();
             }
         );
     }
