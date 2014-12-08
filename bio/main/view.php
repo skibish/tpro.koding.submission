@@ -7,9 +7,7 @@
 ); ?>                                                                                    
 <? } ?>
 <?o('div', array('users' => $users, 'user'=>array('login'=>$this->user['login'], 'params'=>$this->userParams), 'room_params'=>$this->roomParams, 'dt_created'=>$this->room['dt_created']))?>
-<?/*<?=$this->room?>
-<br>
-<div>Health: <?=$this->roomParams['health']?></div>
+<?/*<div>Health: <?=$this->roomParams['health']?></div>
 <div>Current Health: <?=$this->room->getHealth()?></div>
 <div>My money: <?=$this->room->getUsers()->where(['user_id'=>$this->user['user_id']])->first()->getMoney()?></div>
 <?foreach($this->room->getUsers() as $user){?>
@@ -59,24 +57,29 @@
                         <!-- Tab panes -->
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane active" id="actions">
-                                <div style="margin-top: 20px;">
+                                <div class='row'>
                                     <?foreach($this->localParams as $localParam => $properties){?>
-                                        <div class="btn-group" role="group" aria-label="<?=ucfirst($localParam)?>" style="margin-bottom: 4px;">
-                                            <a class="btn btn-sm btn-default" style="width: 320px;"><?=ucfirst($localParam)?></a>
-                                            <button type="button" class="btn btn-sm btn-success increase" data-param="<?=$localParam?>">+</button>
-                                            <button type="button" class="btn btn-sm btn-danger decrease" data-param="<?=$localParam?>">-</button>
+                                        <div class="btn-group col-md-12" role="group" aria-label="<?=ucfirst($localParam)?>" style="margin-bottom: 4px;">
+                                            <div style='width:100%'>
+                                                <a class="col-md-10 btn btn-sm btn-default"><?=ucfirst($localParam)?></a>
+                                                <button type="button" class="col-md-1 btn btn-sm btn-success increase" data-param="<?=$localParam?>">+</button>
+                                                <button type="button" class="col-md-1 btn btn-sm btn-danger decrease" data-param="<?=$localParam?>">-</button>
+                                            </div>
                                         </div>
                                     <?}?>
-                                <div style="margin-bottom: 4px;">
-                                    <form class="form-inline" role="form">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control receiver" placeholder="Recever login" style="width: 180px">
+                      
+                                <div class='row'>
+                                    <div class='col-md-12'>
+                                        <div class='col-md-4'>
+                                            <input type='text' placeholder='Reciever' class='form-control receiver'>
                                         </div>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control amount" placeholder="Amount" style="width: 80px">
+                                        <div class='col-md-4'>
+                                            <input type='text' placeholder='Amount' class='form-control amount'>
                                         </div>
-                                        <button type="button" class="btn btn-success sendMoney">Send</button>
-                                    </form>
+                                          <div class='col-md-4'>
+                                            <input type='button' value='Send' class='btn-success form-control sendMoney'>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
