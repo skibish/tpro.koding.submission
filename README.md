@@ -30,7 +30,9 @@ No AI done at the moment to play for some countries instead of humans. Diplomacy
 Our team is looking forward to continue this project, to present it to broader audience.
 
 ![Biosphere project](/screenshots/example-1.png "Biosphere project")
+
 ![Biosphere project](/screenshots/example-2.png "Biosphere project")
+
 ![Biosphere project](/screenshots/example-3.png "Biosphere project")
 
 ## We used
@@ -45,4 +47,4 @@ For this project we used:
 
 ## P.S.
 
-To check out this project use these credentials ```login: demo, password, demo``` or/and ```login:demo1, password:demo```.
+To check out this project use these credentials ```login: demo, password: demo``` or/and ```login:demo1: password:demo```.
