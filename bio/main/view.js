@@ -192,8 +192,7 @@ $this.find('#chat-input').on("keypress", function(event){
             if(!isNaN($scope.worldParams['pollution-air'])){
                 for(var k in map.dataProvider.areas){
                     var userParams = map.dataProvider.areas[k].params;
-                    // console.log(userParams);
-                    // console.log('pop', userParams.population);
+
                     if (!userParams) {
                         continue;
                     }
