@@ -47,4 +47,4 @@ For this project we used:
 
 ## P.S.
 
-To check out this project use these credentials ```login: demo, password: demo``` or/and ```login:demo1: password:demo```.
+To check out this project use these credentials ```login: demo, password: demo``` or/and ```login:demo1, password:demo```.
