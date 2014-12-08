@@ -6,7 +6,7 @@
     'params' => json_decode($user['params'], true)
 ); ?>                                                                                    
 <? } ?>
-<?o('div', array('users' => $users, 'user'=>array('login'=>$this->user['login']), 'room_params'=>$this->roomParams, 'dt_created'=>$this->room['dt_created']))?>
+<?o('div', array('users' => $users, 'user'=>array('login'=>$this->user['login'], 'params'=>$this->userParams), 'room_params'=>$this->roomParams, 'dt_created'=>$this->room['dt_created']))?>
 <?/*<?=$this->room?>
 <br>
 <div>Health: <?=$this->roomParams['health']?></div>

@@ -24,19 +24,19 @@ var map = AmCharts.makeChart("mapdiv", {
         areas: [
             {
                 id: "europe",
-                title: "Europe"
+                title: "<h1>Holy</h1>"
             },
             {
                 id: "north_america",
-                title: "North America"
+                title: "<h1>Holy</h1>"
             },
             {
                 id: "africa",
-                title: "Africa"
+                title: "<h1>Holy</h1>"
             },
             {
                 id: "asia",
-                title: "Asia"
+                title: "<h1>Holy</h1>"
             }
         ],
     },
@@ -44,7 +44,8 @@ var map = AmCharts.makeChart("mapdiv", {
     areasSettings: {
         autoZoom: true,
         selectedColor: "#8e44ad",
-    }
+    },
+    smallMap: {}
 });
 
 window.userMap = {};
@@ -62,6 +63,26 @@ window.customFunc = {
                 if (mapObject.id === user['params']['country']) {
                     mapObject.params = user['params'];
                     mapObject.login = user['login'];
+                    mapObject.template = function() {
+                        var html = "<div> Login: "+ this.login +"</div>";
+                        html += "<div> Country: "+ this.params.country +"</div>";
+                        html += "<div>Applied science: "+ this.params['applied-science'] +"</div>";
+                        html += "<div>Eco science: "+ this.params['eco-science'] +"</div>";
+                        html += "<div> industry: "+ this.params['industry'] +"</div>";
+                        html += "<div> Medicine: "+ this.params['medicine'] +"</div>";
+                        html += "<div> Money: "+ this.params['money'] +"</div>";
+                        html += "<div> Population: "+ this.params['population'] +"</div>";
+                        html += "<div> Taxes: "+ this.params['taxes'] +"</div>";
+                        html += "<div>Work places: "+ this.params['work-places'] +"</div>";
+                        html += "<div>Happiness: "+ this.params['happiness'] +"</div>";
+                        return html;
+                    };
+                    mapObject.updateTemplate = function() {
+                        this.title = this.template();
+                    };
+
+                    mapObject.updateTemplate();
+
                     mapObject.color = '#'+user['hash'].substr(-6);
                     var getLighten = function(color, lum){
                         return Math.max(16, Math.min(255, Math.round(parseInt(color, 16) + lum))).toString(16);
@@ -146,13 +167,17 @@ $this.find('#chat-input').on("keypress", function(event){
                 }else if(message.param){
                     var mapObject = customFunc.getMapObject(message.author);
                     mapObject.params[message.param] += message.amount;
+                    mapObject.updateTemplate();
+                    map.validateData();
                 }else if(message.action){
                     if(message.action == 'send_money'){
                         var mapObjectSender = customFunc.getMapObject(message.author);
                         var mapObjectReceiver = customFunc.getMapObject(message.receiver);
                         mapObjectSender.params['money'] = parseInt(mapObjectSender.params['money']) - parseInt(message.amount);
+                        mapObjectSender.updateTemplate();
                         mapObjectReceiver.params['money'] = parseInt(mapObjectReceiver.params['money']) + parseInt(message.amount);
                         mapObjectReceiver.updateTemplate();
+                        map.validateData();
                     }
                 }
                 $scope.$apply();
@@ -195,17 +220,17 @@ $this.find('#chat-input').on("keypress", function(event){
 
                     //ecology
                     var ecology = 0;
-                    if(userParams['eco-science'] < 1000) {
+                    if(userParams['eco-science'] < 10) {
                         ecology = 3;
-                    }else if(userParams['eco-science'] < 5000){
-                        ecology = 2.1;
-                    }else{
+                    }else if(userParams['eco-science'] < 50){
                         ecology = 0.5;
+                    }else{
+                        ecology = 0.01;
                     }
 
                     //number of factories
-                    var numOfFactories = (100*userParams.industry);
-                    userParams['work-places'] = numOfFactories * 50;
+                    var numOfFactories = (10*userParams.industry);
+                    userParams['work-places'] = numOfFactories*500;
 
                     //happiness
                     var sumPollution = (
@@ -215,22 +240,28 @@ $this.find('#chat-input').on("keypress", function(event){
                     );
                     var happiness = 0;
                     if (sumPollution > 1000){
-                        happiness = -(sumPollution / 1000);
+                        happiness = -(sumPollution / 100000);
                     }else{
                         happiness = 1;
                     }
 
+                    if(userParams['population'] / userParams['work-places'] < userParams['population']*0.2){
+                        happiness -= 1;
+                    }else{
+                        happiness += 1;
+                    }
+
                     userParams.happiness = Math.min(
                         Math.max(
-                            0, 
-                            userParams.happiness + ((moment().unix() - $this.data('dt_created')) * happiness)
+                            1, 
+                            userParams.happiness + /*((moment().unix() - $this.data('dt_created')) **/ happiness
                         ), 100
                     );
 
                     //death number
-                    var deathNumber = (((userParams['money']/userParams['work-places'] < userParams['population'])?100:0) + (
-                        (population*0.1) + 
-                        (1-parseInt(userParams.medicine)*0.5) +
+                    var deathNumber = (
+                        (population*0.01) + 
+                        (100-parseInt(userParams.medicine)*100) +
                         (
                             (
                                 (parseInt($scope.worldParams['pollution-air'])) +
@@ -239,23 +270,32 @@ $this.find('#chat-input').on("keypress", function(event){
                             ) / 300
                         ) + 
                         (
-                            (100 - parseInt(userParams.happiness)) * 100
+                            (100 - parseInt(userParams.happiness)) * 10
                         )
-                    ) / 12) * 0.7;
+                    ) / 12;
+                    
+                    userParams.population = Math.min(
+                        Math.max(
+                            0, 
+                            userParams.population - /*((moment().unix() - $this.data('dt_created')) **/ deathNumber
+                        )
+                    );
 
                     //birth number
-                    var birthNumber = 100 + (userParams.happiness * (userParams.medicine/100));
-                    userParams.population = (population <= 0) ? 0 : Math.max(
-                        0, 
-                        userParams.population + ((moment().unix() - $this.data('dt_created')) * (birthNumber-deathNumber))
+                    var birthNumber = (1000 * userParams.happiness) + (1000 * (userParams.medicine/100));
+                    userParams.population = Math.min(
+                        Math.max(
+                            0, 
+                            userParams.population + /*((moment().unix() - $this.data('dt_created')) **/ birthNumber * (userParams['population']>0?1:0)
+                        )
                     );
 
                     //earnings
                     var earnings = (numOfFactories * 
-                        (1 + userParams['applied-science']/100) + 
-                        Math.min(userParams['work-places'], userParams['population']) * 0.0001 * userParams['taxes']) -
-                        userParams['work-places']/userParams['population'];
-                    userParams.money = Math.max(0, userParams.money + ((moment().unix() - $this.data('dt_created')) * earnings));
+                        (1 + userParams['applied-science']*300) + 
+                        Math.min(userParams['work-places'], userParams['population']) * 0.001 * userParams['taxes']) * (userParams['population']>0?1:0) - 
+                        Math.max(userParams['work-places']*0.1, userParams['work-places'] - userParams['population']);
+                    userParams.money = userParams.money + /*((moment().unix() - $this.data('dt_created')) **/ earnings;
 
                     /**********/
                     /* GLOBAL */
@@ -268,44 +308,46 @@ $this.find('#chat-input').on("keypress", function(event){
                             $scope.worldParams['pollution-water'] +
                             $scope.worldParams['pollution-earth']
                         ) / 1000;
-                    $scope.worldParams['rain-forests'] = Math.max(
-                        0, 
-                        $scope.worldParams['rain-forests'] + ((moment().unix() - $this.data('dt_created')) * trees)
+                    $scope.worldParams['rain-forests'] = Math.min(
+                        Math.max(
+                            0, 
+                            $scope.worldParams['rain-forests'] + /*((moment().unix() - $this.data('dt_created')) **/ trees
+                        )
                     );
 
                     //pollution
-                    var pollution       = userParams['industry'] * ecology;
-                    var pollutionAir    = pollution - ((7 + $scope.worldParams['rain-forests']/1000) + (7 + userParams['eco-science']/1000));
-                    var pollutionWater  = pollution - ((10 + userParams['eco-science'] / 1000));
-                    var pollutionEarth  = pollution - ((5 + $scope.worldParams['rain-forests']/1000) + (5 + userParams['eco-science']/1000));
+                    var pollution       = numOfFactories * ecology *10;
+                    var pollutionAir    = pollution - ((700 + $scope.worldParams['rain-forests']/100000) + (700 + userParams['eco-science']/100));
+                    var pollutionWater  = pollution - ((100 + userParams['eco-science']*100));
+                    var pollutionEarth  = pollution - ((500 + $scope.worldParams['rain-forests']/100000) + (500 + userParams['eco-science']/100));
 
                     $scope.worldParams['pollution-air']   = Math.min(
                         Math.max(
                             0, 
-                            $scope.worldParams['pollution-air'] + ((moment().unix() - $this.data('dt_created')) * pollutionAir)
-                        ), 100
+                            $scope.worldParams['pollution-air'] + /*((moment().unix() - $this.data('dt_created')) **/ pollutionAir
+                        )
                     );
                     $scope.worldParams['pollution-water'] = Math.min(
                         Math.max(
                             0, 
-                            $scope.worldParams['pollution-water'] + ((moment().unix() - $this.data('dt_created')) * pollutionWater)
-                        ), 100
+                            $scope.worldParams['pollution-water'] + /*((moment().unix() - $this.data('dt_created')) **/ pollutionWater
+                        )
                     );
                     $scope.worldParams['pollution-earth'] = Math.min(
                         Math.max(
                             0, 
-                            $scope.worldParams['pollution-earth'] + ((moment().unix() - $this.data('dt_created')) * pollutionEarth)
-                        ), 100
+                            $scope.worldParams['pollution-earth'] + /*((moment().unix() - $this.data('dt_created')) **/ pollutionEarth
+                        )
                     );
 
                     //factory waste
                     var coalWaste = 0;
                     var forestWaste = 0;
                     var oilWaste = 0;
-                    if(userParams['eco-science'] < 1000){
+                    if(userParams['applied-science'] < 10){
                         coalWaste   = userParams.industry * 1;
                         forestWaste = userParams.industry * 1;
-                    }else if(userParams['eco-science'] < 5000){
+                    }else if(userParams['applied-science'] < 50){
                         coalWaste   = userParams.industry * 0.5;
                         forestWaste = userParams.industry * 0.1;
                     }else{
@@ -314,25 +356,37 @@ $this.find('#chat-input').on("keypress", function(event){
                         oilWaste = userParams.industry * 0.4;
                     }
 
-                    $scope.worldParams['coal'] = Math.max(
-                        0, 
-                        $scope.worldParams['coal'] - ((moment().unix() - $this.data('dt_created')) * coalWaste)
+                    $scope.worldParams['coal'] = Math.min(
+                        Math.max(
+                            0, 
+                            $scope.worldParams['coal'] - /*((moment().unix() - $this.data('dt_created')) **/ coalWaste
+                        )
                     );
 
-                    $scope.worldParams['rain-forests'] = Math.max(
-                        0, 
-                        $scope.worldParams['rain-forests'] - ((moment().unix() - $this.data('dt_created')) * forestWaste)
+                    $scope.worldParams['rain-forests'] = Math.min(
+                        Math.max(
+                            0, 
+                            $scope.worldParams['rain-forests'] - /*((moment().unix() - $this.data('dt_created')) **/ forestWaste
+                        )
                     );
 
-                    $scope.worldParams['oil'] = Math.max(
-                        0, 
-                        $scope.worldParams['oil'] - ((moment().unix() - $this.data('dt_created')) * oilWaste)
+                    $scope.worldParams['oil'] = Math.min(
+                        Math.max(
+                            0, 
+                            $scope.worldParams['oil'] - /*((moment().unix() - $this.data('dt_created')) **/ oilWaste
+                        )
                     );
+
+                    if(oilWaste > 0){
+                        $scope.worldParams['pollution-water'] += Math.min(oilWaste*160, 1800);
+                        $scope.worldParams['pollution-air'] += oilWaste*10;
+                        $scope.worldParams['pollution-earth'] += oilWaste*10;
+                    }
 
                     //customFunc.getMapObject($this.data('user').login).params = userParams;
                 }
             }
-        }, 1000); 
+        }, 50); 
         
     });
 
