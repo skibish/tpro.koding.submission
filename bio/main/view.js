@@ -24,19 +24,23 @@ var map = AmCharts.makeChart("mapdiv", {
         areas: [
             {
                 id: "europe",
-                title: "<h1>Holy</h1>"
+                title: "Europe"
             },
             {
                 id: "north_america",
-                title: "<h1>Holy</h1>"
+                title: "North america"
+            },
+            {
+                id: "south_america",
+                title: "South america"
             },
             {
                 id: "africa",
-                title: "<h1>Holy</h1>"
+                title: "Africa"
             },
             {
                 id: "asia",
-                title: "<h1>Holy</h1>"
+                title: "Asia"
             }
         ],
     },
@@ -63,25 +67,6 @@ window.customFunc = {
                 if (mapObject.id === user['params']['country']) {
                     mapObject.params = user['params'];
                     mapObject.login = user['login'];
-                    mapObject.template = function() {
-                        var html = "<div> Login: "+ this.login +"</div>";
-                        html += "<div> Country: "+ this.params.country +"</div>";
-                        html += "<div>Applied science: "+ this.params['applied-science'] +"</div>";
-                        html += "<div>Eco science: "+ this.params['eco-science'] +"</div>";
-                        html += "<div> industry: "+ this.params['industry'] +"</div>";
-                        html += "<div> Medicine: "+ this.params['medicine'] +"</div>";
-                        html += "<div> Money: "+ this.params['money'] +"</div>";
-                        html += "<div> Population: "+ this.params['population'] +"</div>";
-                        html += "<div> Taxes: "+ this.params['taxes'] +"</div>";
-                        html += "<div>Work places: "+ this.params['work-places'] +"</div>";
-                        html += "<div>Happiness: "+ this.params['happiness'] +"</div>";
-                        return html;
-                    };
-                    mapObject.updateTemplate = function() {
-                        this.title = this.template();
-                    };
-
-                    mapObject.updateTemplate();
 
                     mapObject.color = '#'+user['hash'].substr(-6);
                     var getLighten = function(color, lum){
@@ -134,12 +119,6 @@ $this.find('#chat-input').on("keypress", function(event){
 });
 
 /**
- * Listen on map areas clicks
- */
-
-
-
-/**
  * Angular settings and logic
  */
 (function() {
@@ -168,7 +147,6 @@ $this.find('#chat-input').on("keypress", function(event){
                     var mapObject = customFunc.getMapObject(message.author);
                     mapObject.params[message.param] += message.amount;
                     mapObject.updateTemplate();
-                    map.validateData();
                 }else if(message.action){
                     if(message.action == 'send_money'){
                         var mapObjectSender = customFunc.getMapObject(message.author);
@@ -177,7 +155,6 @@ $this.find('#chat-input').on("keypress", function(event){
                         mapObjectSender.updateTemplate();
                         mapObjectReceiver.params['money'] = parseInt(mapObjectReceiver.params['money']) + parseInt(message.amount);
                         mapObjectReceiver.updateTemplate();
-                        map.validateData();
                     }
                 }
                 $scope.$apply();
@@ -207,7 +184,6 @@ $this.find('#chat-input').on("keypress", function(event){
         $scope.timeUpdate = function(){
             var timeDiff = moment().unix() - $this.data('dt_created');
             $scope.worldTime = moment(new Date((moment().unix() + (timeDiff * 60*60*24*30)) * 1000)).format("YYYY MMMM");
-            //map.validateData();
         }
 
         $interval(function() {
@@ -216,6 +192,11 @@ $this.find('#chat-input').on("keypress", function(event){
             if(!isNaN($scope.worldParams['pollution-air'])){
                 for(var k in map.dataProvider.areas){
                     var userParams = map.dataProvider.areas[k].params;
+                    // console.log(userParams);
+                    // console.log('pop', userParams.population);
+                    if (!userParams) {
+                        continue;
+                    }
                     var population = parseInt(userParams.population);
 
                     //ecology
@@ -378,7 +359,7 @@ $this.find('#chat-input').on("keypress", function(event){
                     );
 
                     if(oilWaste > 0){
-                        $scope.worldParams['pollution-water'] += Math.min(oilWaste*160, 1800);
+                        $scope.worldParams['pollution-water'] += oilWaste*10;
                         $scope.worldParams['pollution-air'] += oilWaste*10;
                         $scope.worldParams['pollution-earth'] += oilWaste*10;
                     }
